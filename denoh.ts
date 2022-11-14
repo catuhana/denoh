@@ -1,4 +1,8 @@
 import { parse as parseJSONC } from 'https://deno.land/std@0.164.0/encoding/jsonc.ts';
+import {
+  parse as parsePath,
+  resolve as resolvePath,
+} from 'https://deno.land/std@0.164.0/path/mod.ts';
 
 const hooks = [
   'applypatch-msg',
@@ -23,7 +27,7 @@ const hooks = [
 type GitHooks = typeof hooks[number];
 
 interface DenoConfig {
-  githooks: Record<GitHooks, string[]>;
+  githooks: Record<string, string[]>;
 }
 
 const log = (message: string) => {
@@ -64,7 +68,7 @@ const getGithooks = async (configPath: string) => {
     } else {
       for await (const file of Deno.readDir(configPath)) {
         if (['deno.json', 'deno.jsonc'].includes(file.name)) {
-          configFile = await Deno.readTextFile(file.name);
+          configFile = await Deno.readTextFile(`${configPath}/${file.name}`);
           break;
         }
       }
@@ -80,7 +84,9 @@ const getGithooks = async (configPath: string) => {
     return {
       // deno-lint-ignore no-explicit-any
       githooks: (parseJSONC(configFile) as any as DenoConfig)?.githooks,
-      configPath,
+      configPath: resolvePath(
+        isDirectory ? configPath : parsePath(configPath).dir,
+      ),
     };
   } catch (err) {
     let exitCode;
@@ -101,28 +107,37 @@ const getGithooks = async (configPath: string) => {
 };
 
 const setHooks = async (configPath = '.') => {
-  const { githooks, configPath: path } = await getGithooks(configPath);
+  const { githooks, configPath: path }: {
+    githooks: Record<GitHooks, string[]>;
+    configPath: string;
+  } = await getGithooks(configPath);
 
-  if (!githooks) {
+  if (typeof githooks === 'object' && Array.isArray(githooks)) {
+    log('`githooks` field must be an Object.').error();
+    Deno.exit(246);
+  } else if (!githooks) {
     log('Deno config file doesn\'t have `githooks` field.').error();
     Deno.exit(245);
   } else {
     const createdHooks: string[] = [];
-    for (const githookName of Object.keys(githooks)) {
-      if (!(hooks as readonly string[]).includes(githookName)) {
-        log(`\`${githookName}\` is not a valid git hook, skipping...`).warn();
+    for (const githookName of (Object.keys(githooks) as GitHooks[])) {
+      if (!hooks.includes(githookName)) {
+        log(`\`${githookName}\` is not a valid Git hook, skipping...`).warn();
         continue;
       }
 
       const githookCommands = githooks[githookName as GitHooks];
-      if (!Array.isArray(githookCommands)) {
+      if (
+        !Array.isArray(githookCommands) ||
+        githookCommands.every((c) => typeof c !== 'string')
+      ) {
         log(
-          `\`${githookName}\` githook value must be in array format, skipping...`,
+          `\`${githookName}\` Git hook value must be an array of strings, skipping...`,
         ).warn();
         continue;
-      } else if (githookCommands.length) {
+      } else if (!githookCommands.length) {
         log(
-          `\`${githookName}\` githook value does not include any command, skipping...`,
+          `\`${githookName}\` Git hook value does not include any command, skipping...`,
         ).warn();
         continue;
       }
@@ -144,13 +159,18 @@ const setHooks = async (configPath = '.') => {
       createdHooks.push(githookName);
     }
 
-    log(
-      `Created ${
-        (createdHooks.length > 1)
-          ? `${createdHooks.join(', ')} hooks`
-          : `${createdHooks[0]} hook`
-      } successfully.`,
-    ).info();
+    if (createdHooks.length) {
+      log(
+        `Created ${
+          (createdHooks.length > 1)
+            ? `${createdHooks.join(', ')} Git hooks`
+            : `${createdHooks[0]} Git hook`
+        } successfully.`,
+      ).info();
+    } else {
+      log('No Git hook created.').warn();
+      Deno.exit(247);
+    }
   }
 };
 
