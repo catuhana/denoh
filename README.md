@@ -1,49 +1,81 @@
-# Deno support for githooks
+# Denoh
 
-See https://git-scm.com/docs/githooks and
-https://deno.land/manual@v1.25.4/tools/task_runner
+A script for generating Git hooks by extending Deno's configuration file.
 
-This is a simple tool for [deno](https://deno.land) projects that allows you to
-associate specific `deno tasks` with specific `githooks` by extending the native
-`deno.json` configuration file.
+## Differences from [deno-githooks](https://github.com/deco-cx/deno-githooks)
 
-It works like this:
+- Support for JSONC configurations
+- Support for shell commands
+- Beautiful log messages
+- Custom exit codes for scripting
+- Check for valid Git hooks
+- Support for running in another folder
+- Entering custom Deno configuration file
 
-- In your `deno.json` file, add a `githooks` key containing a map of `{githook}`
-  to `{deno task}`. For example:
+## Installation or Running
 
-```json
-// deno.json
+You can install this script globally by running `deno install https://github.com/tuhanayim/denoh/raw/main/denoh.ts` command, or run without installing by running `deno run https://github.com/tuhanayim/denoh/raw/main/denoh.ts`
+
+## Usage
+
+Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.{json,jsonc}) if not exists. Denoh looks for `githooks` key of configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside of an array of strings. Let's say our Deno configuration file is this example below:
+
+```jsonc
 {
   "tasks": {
-    "start": "deno run -A dev.ts",
-    "check": "deno fmt --check && deno lint"
+    "lint": "deno lint",
+    "lint:fmt": "deno fmt --check"
   },
+  // All hook values must be array of strings.
   "githooks": {
-    "pre-commit": "check"
+    // You can pass a Deno task by writing the exact name of it:
+    "pre-commit": ["lint"],
+    // Or you can pass any shell command with an exclamation point (!) at the beginning of the string:
+    "post-commit": ["!echo 'Added commit'"],
+    // And you can mix them together:
+    "post-checkout": [
+      "!echo 'Changed branch, running lint tasks...'",
+      "lint",
+      "lint:fmt",
+      "!echo 'Tasks ran successfully.'"
+    ]
   }
 }
 ```
 
-- In your terminal, run the `githooks.ts` script. It will automatically create a
-  hook file for each githook in your `deno.json` file.
+To generate Git hooks, run `deno run -A https://github.com/tuhanayim/denoh/raw/main/denoh.ts`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks with the following contents:
 
-```bash
-$ deno run -A -r https://deno.land/x/githooks/githooks.ts
+```sh
+# .git/hooks/pre-commit
+
+#!/bin/sh
+deno task lint
+
+# .git/hooks/post-commit
+
+#!/bin/sh
+echo 'Added commit'
+
+# .git/hooks/post-checkout
+
+#!/bin/sh
+echo 'Changed branch, running lint tasks...'
+deno task lint
+deno task lint:fmt
+echo 'Tasks ran successfully.'
 ```
 
-That's it. Now your git should call `deno task check` before every commit.
+### Running for different folder or configuration files
 
----
+You can pass folder name or configuration file name by passing its path as an argument. If entered path is different, it will create Git hooks in passed folder.
 
-**PROTIP:** [**deco** Live](https://github.com/deco-cx/live) projects come with
-this extension pre-installed in the `dev` script. You don't have to do anything,
-just add `githooks` to `deno.json` and run `dev` to install the hooks
-transparently.
+```sh
+denoh ../my-beautiful-project
+denoh deno.dev.jsonc
+```
 
----
+## Exit Codes
 
-## TODO
-
-- [ ] Add support for Windows implementing something like this:
-      https://github.com/denoland/deno/blob/429759fe8b4207240709c240a8344d12a1e39566/cli/tools/installer.rs#L46
+| 0                        | 243                              | 244                                 | 245                                                | 255            |
+| ------------------------ | -------------------------------- | ----------------------------------- | -------------------------------------------------- | -------------- |
+| Script ran successfully. | Configuration file is not found. | Could not parse configuration file. | Configuration file does not have `githooks` field. | Unknown error. |
