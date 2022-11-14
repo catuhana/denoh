@@ -43,7 +43,7 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
 }
 ```
 
-To generate Git hooks, run `deno run -A https://github.com/tuhanayim/denoh/raw/main/denoh.ts`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks with the following contents:
+To generate Git hooks, run `denoh`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks with the following contents:
 
 ```sh
 # .git/hooks/pre-commit
