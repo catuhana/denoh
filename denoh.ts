@@ -112,65 +112,65 @@ const setHooks = async (configPath = '.') => {
     configPath: string;
   } = await getGithooks(configPath);
 
-  if (typeof githooks === 'object' && Array.isArray(githooks)) {
-    log('`githooks` field must be an Object.').error();
-    Deno.exit(246);
-  } else if (!githooks) {
+  if (!githooks) {
     log('Deno config file doesn\'t have `githooks` field.').error();
     Deno.exit(245);
-  } else {
-    const createdHooks: string[] = [];
-    for (const githookName of (Object.keys(githooks) as GitHooks[])) {
-      if (!hooks.includes(githookName)) {
-        log(`\`${githookName}\` is not a valid Git hook, skipping...`).warn();
-        continue;
-      }
+  } else if (typeof githooks !== 'object' || Array.isArray(githooks)) {
+    log('`githooks` field must be an Object.').error();
+    Deno.exit(246);
+  }
 
-      const githookCommands = githooks[githookName as GitHooks];
-      if (
-        !Array.isArray(githookCommands) ||
-        githookCommands.every((c) => typeof c !== 'string')
-      ) {
-        log(
-          `\`${githookName}\` Git hook value must be an array of strings, skipping...`,
-        ).warn();
-        continue;
-      } else if (!githookCommands.length) {
-        log(
-          `\`${githookName}\` Git hook value does not include any command, skipping...`,
-        ).warn();
-        continue;
-      }
-
-      const createdGithookPath = `${path}/.git/hooks/${githookName}`;
-      const createdGithookScript = [
-        '#!/bin/sh',
-        ...githookCommands.map((commandOrTask) =>
-          commandOrTask.startsWith('!')
-            ? commandOrTask.slice(1)
-            : `deno task ${commandOrTask}`
-        ),
-      ].join('\n');
-
-      await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
-        mode: 0o755,
-      });
-
-      createdHooks.push(githookName);
+  const createdHooks: string[] = [];
+  for (const githookName of (Object.keys(githooks) as GitHooks[])) {
+    if (!hooks.includes(githookName)) {
+      log(`\`${githookName}\` is not a valid Git hook, skipping...`).warn();
+      continue;
     }
 
-    if (createdHooks.length) {
+    const githookCommands = githooks[githookName as GitHooks];
+    if (
+      !Array.isArray(githookCommands) ||
+      githookCommands.every((c) => typeof c !== 'string')
+    ) {
       log(
-        `Created ${
-          (createdHooks.length > 1)
-            ? `${createdHooks.join(', ')} Git hooks`
-            : `${createdHooks[0]} Git hook`
-        } successfully.`,
-      ).info();
-    } else {
-      log('No Git hook created.').warn();
-      Deno.exit(247);
+        `\`${githookName}\` Git hook value must be an array of strings, skipping...`,
+      ).warn();
+      continue;
+    } else if (!githookCommands.length) {
+      log(
+        `\`${githookName}\` Git hook value does not include any command, skipping...`,
+      ).warn();
+      continue;
     }
+
+    const createdGithookPath = `${path}/.git/hooks/${githookName}`;
+    const createdGithookScript = [
+      '#!/bin/sh',
+      ...githookCommands.map((commandOrTask) =>
+        commandOrTask.startsWith('!')
+          ? commandOrTask.slice(1)
+          : `deno task ${commandOrTask}`
+      ),
+    ].join('\n');
+
+    await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
+      mode: 0o755,
+    });
+
+    createdHooks.push(githookName);
+  }
+
+  if (createdHooks.length) {
+    log(
+      `Created ${
+        (createdHooks.length > 1)
+          ? `${createdHooks.join(', ')} Git hooks`
+          : `${createdHooks[0]} Git hook`
+      } successfully.`,
+    ).info();
+  } else {
+    log('No Git hook created, exiting...').warn();
+    Deno.exit(247);
   }
 };
 
