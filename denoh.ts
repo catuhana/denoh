@@ -95,7 +95,7 @@ const getGithooks = async (configPath: string) => {
       log('Entered file does not exists.').error();
       exitCode = 243;
     } else if (err.name === 'SyntaxError') {
-      log(`Couldn't parse Deno configuration\n    > ${err.message}`).error();
+      log(`Could not parse Deno configuration\n    > ${err.message}`).error();
       exitCode = 244;
     } else {
       log(`Unknown error: ${err.message}`);
@@ -113,7 +113,7 @@ const setHooks = async (configPath = '.') => {
   } = await getGithooks(configPath);
 
   if (!githooks) {
-    log('Deno config file doesn\'t have `githooks` field.').error();
+    log('Deno config file does not have `githooks` field.').error();
     Deno.exit(245);
   } else if (typeof githooks !== 'object' || Array.isArray(githooks)) {
     log('`githooks` field must be an Object.').error();
@@ -153,9 +153,14 @@ const setHooks = async (configPath = '.') => {
       ),
     ].join('\n');
 
-    await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
-      mode: 0o755,
-    });
+    try {
+      await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
+        mode: 0o755,
+      });
+    } catch {
+      log('Entered path is not a Git repository.').error();
+      Deno.exit(248);
+    }
 
     createdHooks.push(githookName);
   }
