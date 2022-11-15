@@ -78,6 +78,6 @@ denoh deno.dev.jsonc
 
 ## Exit Codes
 
-| 0                        | 243                              | 244                                 | 245                                                | 246                                                      | 247              | 248                                  | 255            |
-| ------------------------ | -------------------------------- | ----------------------------------- | -------------------------------------------------- | -------------------------------------------------------- | ---------------- | ------------------------------------ | -------------- |
-| Script ran successfully. | Configuration file is not found. | Could not parse configuration file. | Configuration file does not have `githooks` field. | `githooks` value on configuration file is not an Object. | No hook created. | Entered path is not a Git repository | Unknown error. |
+| 0                        | 243                              | 244                                 | 245                                                | 246                                                      | 247              | 248                                   | 255            |
+| ------------------------ | -------------------------------- | ----------------------------------- | -------------------------------------------------- | -------------------------------------------------------- | ---------------- | ------------------------------------- | -------------- |
+| Script ran successfully. | Configuration file is not found. | Could not parse configuration file. | Configuration file does not have `githooks` field. | `githooks` value on configuration file is not an Object. | No hook created. | Entered path is not a Git repository. | Unknown error. |
