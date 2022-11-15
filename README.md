@@ -16,6 +16,8 @@ A script for generating Git hooks by extending Deno's configuration file.
 
 You can install this script globally by running `deno install https://github.com/tuhanayim/denoh/raw/main/denoh.ts` command, or run without installing by running `deno run https://github.com/tuhanayim/denoh/raw/main/denoh.ts`
 
+To run a specific version, replace `/raw/*main*/` part on URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/raw/v1.0.0/`.
+
 ## Usage
 
 Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.{json,jsonc}) if not exists. Denoh looks for `githooks` key of configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside of an array of strings. Let's say our Deno configuration file is this example below:
