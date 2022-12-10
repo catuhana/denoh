@@ -37,15 +37,15 @@ const log = (message: string) => {
         `%cdenoh%c :: %c${message}`,
         'background-color: red; color: black; font-weight: bold',
         'color: grey',
-        'color: white',
+        'color: initial',
       );
     },
     warn() {
-      console.log(
+      console.warn(
         `%cdenoh%c :: %c${message}`,
         'background-color: orange; color: black; font-weight: bold',
         'color: grey',
-        'color: white',
+        'color: initial',
       );
     },
     info() {
@@ -53,7 +53,7 @@ const log = (message: string) => {
         `%cdenoh%c :: %c${message}`,
         'background-color: green; color: black; font-weight: bold',
         'color: grey',
-        'color: white',
+        'color: initial',
       );
     },
   };
