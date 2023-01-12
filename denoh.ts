@@ -1,8 +1,8 @@
-import { parse as parseJSONC } from 'https://deno.land/std@0.167.0/encoding/jsonc.ts';
+import { parse as parseJSONC } from 'https://deno.land/std@0.171.0/encoding/jsonc.ts';
 import {
   parse as parsePath,
   resolve as resolvePath,
-} from 'https://deno.land/std@0.167.0/path/mod.ts';
+} from 'https://deno.land/std@0.171.0/path/mod.ts';
 
 const hooks = [
   'applypatch-msg',
