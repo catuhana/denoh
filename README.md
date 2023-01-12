@@ -8,9 +8,8 @@ A script for generating Git hooks by extending Deno's configuration file.
 - Support for shell commands
 - Beautiful log messages
 - Custom exit codes for scripting
-- Check for valid Git hooks
-- Support for running in another folder
-- Entering custom Deno configuration file
+- Check if hook is valid
+- Support for running in another folder or entering custom Deno configuration file
 
 ## Installation or Running
 
@@ -37,8 +36,7 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
     // And you can mix them together:
     "post-checkout": [
       "!echo 'Changed branch, running lint tasks...'",
-      "lint",
-      "lint:fmt",
+      "lint | lint:fmt", // shorthand of `["lint", "lint:fmt"]`
       "!echo 'Tasks ran successfully.'"
     ]
   }
@@ -48,17 +46,17 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
 To generate Git hooks, run `denoh`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks with the following contents:
 
 ```sh
-# .git/hooks/pre-commit
+## file -> .git/hooks/pre-commit
 
 #!/bin/sh
 deno task lint
 
-# .git/hooks/post-commit
+## file -> .git/hooks/post-commit
 
 #!/bin/sh
 echo 'Added commit'
 
-# .git/hooks/post-checkout
+## file -> .git/hooks/post-checkout
 
 #!/bin/sh
 echo 'Changed branch, running lint tasks...'
