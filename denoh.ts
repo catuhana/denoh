@@ -137,33 +137,33 @@ const setHooks = async (configPath = '.') => {
   }
 
   const createdHooks: string[] = [];
-  for (const githookName of (Object.keys(githooks) as GitHooks[])) {
-    if (!hooks.includes(githookName)) {
-      log(`\`${githookName}\` is not a valid Git hook, skipping...`).warn();
+  for (const gitHookName of (Object.keys(githooks) as GitHooks[])) {
+    if (!hooks.includes(gitHookName)) {
+      log(`\`${gitHookName}\` is not a valid Git hook, skipping...`).warn();
       continue;
     }
 
-    const githookCommands = githooks[githookName as GitHooks];
+    const gitHookCommands = githooks[gitHookName as GitHooks];
     if (
-      !Array.isArray(githookCommands) ||
-      githookCommands.every((c) => typeof c !== 'string')
+      !Array.isArray(gitHookCommands) ||
+      gitHookCommands.every((c) => typeof c !== 'string')
     ) {
       log(
-        `\`${githookName}\` Git hook value must be an array of strings, skipping...`,
+        `\`${gitHookName}\` Git hook value must be an array of strings, skipping...`,
       ).warn();
       continue;
-    } else if (!githookCommands.length) {
+    } else if (!gitHookCommands.length) {
       log(
-        `\`${githookName}\` Git hook value does not include any command, skipping...`,
+        `\`${gitHookName}\` Git hook value does not include any command, skipping...`,
       ).warn();
       continue;
     }
 
-    const createdGithookPath = `${path}/.git/hooks/${githookName}`;
-    const createdGithookScript = createGitHookScript(githookCommands);
+    const createdGitHookPath = `${path}/.git/hooks/${gitHookName}`;
+    const createdGitHookScript = createGitHookScript(gitHookCommands);
 
     try {
-      await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
+      await Deno.writeTextFile(createdGitHookPath, createdGitHookScript, {
         mode: 0o755,
       });
     } catch {
@@ -171,7 +171,7 @@ const setHooks = async (configPath = '.') => {
       Deno.exit(248);
     }
 
-    createdHooks.push(githookName);
+    createdHooks.push(gitHookName);
   }
 
   if (createdHooks.length) {
