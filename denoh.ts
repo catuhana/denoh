@@ -106,6 +106,20 @@ const getGithooks = async (configPath: string) => {
   }
 };
 
+const createGitHookScript = (commands: string[]) => {
+  const script = ['#!/bin/sh'];
+
+  for (const command of commands) {
+    if (command.startsWith('!')) {
+      script.push(command.slice(1));
+    } else {
+      script.push(`deno task ${command.trim()}`);
+    }
+  }
+
+  return script.join('\n');
+};
+
 const setHooks = async (configPath = '.') => {
   const { githooks, configPath: path }: {
     githooks: Record<GitHooks, string[]>;
@@ -144,14 +158,7 @@ const setHooks = async (configPath = '.') => {
     }
 
     const createdGithookPath = `${path}/.git/hooks/${githookName}`;
-    const createdGithookScript = [
-      '#!/bin/sh',
-      ...githookCommands.map((commandOrTask) =>
-        commandOrTask.startsWith('!')
-          ? commandOrTask.slice(1)
-          : `deno task ${commandOrTask}`
-      ),
-    ].join('\n');
+    const createdGithookScript = createGitHookScript(githookCommands);
 
     try {
       await Deno.writeTextFile(createdGithookPath, createdGithookScript, {
