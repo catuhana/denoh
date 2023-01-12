@@ -98,7 +98,7 @@ const getGithooks = async (configPath: string) => {
       log(`Could not parse Deno configuration\n    > ${err.message}`).error();
       exitCode = 244;
     } else {
-      log(`Unknown error: ${err.message}`);
+      log(`Unknown error: ${err.message}`).error();
       exitCode = 255;
     }
 
