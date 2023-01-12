@@ -113,7 +113,9 @@ const createGitHookScript = (commands: string[]) => {
     if (command.startsWith('!')) {
       script.push(command.slice(1));
     } else {
-      script.push(`deno task ${command.trim()}`);
+      command.split('|').forEach((command) =>
+        script.push(`deno task ${command.trim()}`)
+      );
     }
   }
 

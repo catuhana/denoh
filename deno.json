@@ -22,6 +22,6 @@
     "set-hooks": "deno task run"
   },
   "githooks": {
-    "pre-commit": ["lint", "lint:fmt"]
+    "pre-commit": ["lint | lint:fmt"]
   }
 }
