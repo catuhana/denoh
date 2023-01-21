@@ -1,2 +1,1 @@
-deno.lock
-deno.test.jsonc
+*.test.*
