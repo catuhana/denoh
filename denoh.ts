@@ -1,4 +1,7 @@
-import { parse as parseJSONC } from 'https://deno.land/std@0.171.0/encoding/jsonc.ts';
+import {
+  JSONValue,
+  parse as parseJSONC,
+} from 'https://deno.land/std@0.171.0/encoding/jsonc.ts';
 import {
   parse as parsePath,
   resolve as resolvePath,
@@ -27,7 +30,7 @@ const hooks = [
 type GitHooks = typeof hooks[number];
 
 interface DenoConfig {
-  githooks: Record<string, string[]>;
+  githooks: Record<GitHooks, string[]>;
 }
 
 const log = (message: string) => {
@@ -82,8 +85,7 @@ const getGithooks = async (configPath: string) => {
     }
 
     return {
-      // deno-lint-ignore no-explicit-any
-      githooks: (parseJSONC(configFile) as any as DenoConfig)?.githooks,
+      githooks: (parseJSONC(configFile) as (JSONValue & DenoConfig))?.githooks,
       configPath: resolvePath(
         isDirectory ? configPath : parsePath(configPath).dir,
       ),
@@ -123,10 +125,7 @@ const createGitHookScript = (commands: string[]) => {
 };
 
 const setHooks = async (configPath = '.') => {
-  const { githooks, configPath: path }: {
-    githooks: Record<GitHooks, string[]>;
-    configPath: string;
-  } = await getGithooks(configPath);
+  const { githooks, configPath: path } = await getGithooks(configPath);
 
   if (!githooks) {
     log('Deno config file does not have `githooks` field.').error();
@@ -143,7 +142,7 @@ const setHooks = async (configPath = '.') => {
       continue;
     }
 
-    const gitHookCommands = githooks[gitHookName as GitHooks];
+    const gitHookCommands = githooks[gitHookName];
     if (
       !Array.isArray(gitHookCommands) ||
       gitHookCommands.every((c) => typeof c !== 'string')
