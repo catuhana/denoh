@@ -1,5 +1,5 @@
 import {
-  JSONValue,
+  type JSONValue,
   parse as parseJSONC,
 } from 'https://deno.land/std@0.171.0/encoding/jsonc.ts';
 import {
@@ -64,24 +64,17 @@ async function setHooks(configPath = '.') {
         `\`${gitHookName}\` Git hook value must be an array of strings, skipping...`,
       ).warn();
       continue;
-    } else if (!gitHookCommands.length) {
-      log(
-        `\`${gitHookName}\` Git hook value does not include any command, skipping...`,
-      ).warn();
-      continue;
     }
 
     const createdGitHookPath = `${path}/.git/hooks/${gitHookName}`;
     const createdGitHookScript = createGitHookScript(gitHookCommands);
 
-    try {
-      await Deno.writeTextFile(createdGitHookPath, createdGitHookScript, {
-        mode: 0o755,
-      });
-    } catch {
+    await Deno.writeTextFile(createdGitHookPath, createdGitHookScript, {
+      mode: 0o755,
+    }).catch(() => {
       log('Entered path is not a Git repository.').error();
       Deno.exit(248);
-    }
+    });
 
     createdHooks.push(gitHookName);
   }
