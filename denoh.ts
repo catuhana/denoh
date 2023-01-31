@@ -7,6 +7,10 @@ import {
   resolve as resolvePath,
 } from 'https://deno.land/std@0.171.0/path/mod.ts';
 
+if (import.meta.main) {
+  await setHooks(Deno.args?.[0]);
+}
+
 const hooks = [
   'applypatch-msg',
   'pre-applypatch',
@@ -33,98 +37,7 @@ interface DenoConfig {
   githooks: Record<GitHooks, string[]>;
 }
 
-const log = (message: string) => {
-  return {
-    error() {
-      console.error(
-        `%cdenoh%c :: %c${message}`,
-        'background-color: red; color: black; font-weight: bold',
-        'color: grey',
-        'color: initial',
-      );
-    },
-    warn() {
-      console.warn(
-        `%cdenoh%c :: %c${message}`,
-        'background-color: orange; color: black; font-weight: bold',
-        'color: grey',
-        'color: initial',
-      );
-    },
-    info() {
-      console.log(
-        `%cdenoh%c :: %c${message}`,
-        'background-color: green; color: black; font-weight: bold',
-        'color: grey',
-        'color: initial',
-      );
-    },
-  };
-};
-
-const getGithooks = async (configPath: string) => {
-  let configFile;
-  try {
-    const isDirectory = (await Deno.lstat(configPath)).isDirectory;
-    if (!isDirectory) {
-      configFile = await Deno.readTextFile(configPath);
-    } else {
-      for await (const file of Deno.readDir(configPath)) {
-        if (['deno.json', 'deno.jsonc'].includes(file.name)) {
-          configFile = await Deno.readTextFile(`${configPath}/${file.name}`);
-          break;
-        }
-      }
-
-      if (!configFile) {
-        log(
-          `Deno configuration file (deno.{json,jsonc}) not found in ${configPath} folder.`,
-        ).error();
-        Deno.exit(243);
-      }
-    }
-
-    return {
-      githooks: (parseJSONC(configFile) as (JSONValue & DenoConfig))?.githooks,
-      configPath: resolvePath(
-        isDirectory ? configPath : parsePath(configPath).dir,
-      ),
-    };
-  } catch (err) {
-    let exitCode;
-
-    if (err.name === 'NotFound') {
-      log('Entered file does not exists.').error();
-      exitCode = 243;
-    } else if (err.name === 'SyntaxError') {
-      log(`Could not parse Deno configuration\n    > ${err.message}`).error();
-      exitCode = 244;
-    } else {
-      log(`Unknown error: ${err.message}`).error();
-      exitCode = 255;
-    }
-
-    Deno.exit(exitCode);
-  }
-};
-
-const createGitHookScript = (commands: string[]) => {
-  const script = ['#!/bin/sh'];
-
-  for (const command of commands) {
-    if (command.startsWith('!')) {
-      script.push(command.slice(1));
-    } else {
-      command.split('|').forEach((command) =>
-        script.push(`deno task ${command.trim()}`)
-      );
-    }
-  }
-
-  return script.join('\n');
-};
-
-const setHooks = async (configPath = '.') => {
+async function setHooks(configPath = '.') {
   const { githooks, configPath: path } = await getGithooks(configPath);
 
   if (!githooks) {
@@ -185,8 +98,95 @@ const setHooks = async (configPath = '.') => {
     log('No Git hook created, exiting...').warn();
     Deno.exit(247);
   }
-};
+}
 
-if (import.meta.main) {
-  await setHooks(Deno.args?.[0]);
+async function getGithooks(configPath: string) {
+  let configFile;
+  try {
+    const isDirectory = (await Deno.lstat(configPath)).isDirectory;
+    if (!isDirectory) {
+      configFile = await Deno.readTextFile(configPath);
+    } else {
+      for await (const file of Deno.readDir(configPath)) {
+        if (['deno.json', 'deno.jsonc'].includes(file.name)) {
+          configFile = await Deno.readTextFile(`${configPath}/${file.name}`);
+          break;
+        }
+      }
+
+      if (!configFile) {
+        log(
+          `Deno configuration file (deno.{json,jsonc}) not found in ${configPath} folder.`,
+        ).error();
+        Deno.exit(243);
+      }
+    }
+
+    return {
+      githooks: (parseJSONC(configFile) as (JSONValue & DenoConfig))?.githooks,
+      configPath: resolvePath(
+        isDirectory ? configPath : parsePath(configPath).dir,
+      ),
+    };
+  } catch (err) {
+    let exitCode;
+
+    if (err.name === 'NotFound') {
+      log('Entered file does not exists.').error();
+      exitCode = 243;
+    } else if (err.name === 'SyntaxError') {
+      log(`Could not parse Deno configuration\n    > ${err.message}`).error();
+      exitCode = 244;
+    } else {
+      log(`Unknown error: ${err.message}`).error();
+      exitCode = 255;
+    }
+
+    Deno.exit(exitCode);
+  }
+}
+
+function createGitHookScript(commands: string[]) {
+  const script = ['#!/bin/sh'];
+
+  for (const command of commands) {
+    if (command.startsWith('!')) {
+      script.push(command.slice(1));
+    } else {
+      command.split('|').forEach((command) =>
+        script.push(`deno task ${command.trim()}`)
+      );
+    }
+  }
+
+  return script.join('\n');
+}
+
+function log(message: string) {
+  return {
+    error() {
+      console.error(
+        `%cdenoh%c :: %c${message}`,
+        'background-color: red; color: black; font-weight: bold',
+        'color: grey',
+        'color: initial',
+      );
+    },
+    warn() {
+      console.warn(
+        `%cdenoh%c :: %c${message}`,
+        'background-color: orange; color: black; font-weight: bold',
+        'color: grey',
+        'color: initial',
+      );
+    },
+    info() {
+      console.log(
+        `%cdenoh%c :: %c${message}`,
+        'background-color: green; color: black; font-weight: bold',
+        'color: grey',
+        'color: initial',
+      );
+    },
+  };
 }
