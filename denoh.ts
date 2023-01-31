@@ -7,10 +7,6 @@ import {
   resolve as resolvePath,
 } from 'https://deno.land/std@0.171.0/path/mod.ts';
 
-if (import.meta.main) {
-  await setHooks(Deno.args?.[0]);
-}
-
 const hooks = [
   'applypatch-msg',
   'pre-applypatch',
@@ -31,8 +27,12 @@ const hooks = [
   'post-update',
   'reference-transaction',
 ] as const;
-type GitHooks = typeof hooks[number];
 
+if (import.meta.main) {
+  await setHooks(Deno.args[0]);
+}
+
+type GitHooks = typeof hooks[number];
 interface DenoConfig {
   githooks: Record<GitHooks, string[]>;
 }
