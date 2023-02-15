@@ -7,7 +7,7 @@ import { logger } from './utils.ts';
 import type { DenoConfig, GitHooks } from './types.d.ts';
 
 export async function setHooks(configPath = '.', outFolder?: string) {
-  const { githooks, configPath: path } = await getGithooks(configPath);
+  const { githooks, configPath: path } = await getGitHooks(configPath);
 
   if (!githooks) {
     logger('Deno config file does not have `githooks` field.').error();
@@ -64,7 +64,7 @@ export async function setHooks(configPath = '.', outFolder?: string) {
   }
 }
 
-export async function getGithooks(configPath: string) {
+export async function getGitHooks(configPath: string) {
   let configFile;
   try {
     const isDirectory = (await Deno.lstat(configPath)).isDirectory;
