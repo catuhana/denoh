@@ -36,7 +36,7 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
     // And you can mix them together:
     "post-checkout": [
       "!echo 'Changed branch, running lint tasks...'",
-      "lint | lint:fmt", // shorthand of `["lint", "lint:fmt"]`
+      "lint ; lint:fmt", // shorthand of `["lint", "lint:fmt"]`
       "!echo 'Tasks ran successfully.'"
     ]
   }
