@@ -4,9 +4,9 @@ import { parse as parsePath, resolve as resolvePath } from 'std:path';
 import { HOOKS, Operators } from './constants.ts';
 import { logger } from './utils.ts';
 
-import type { DenoConfig, GitHooks } from './types.d.ts';
+import type { CreatedHookObject, DenoConfig, GitHooks } from './types.d.ts';
 
-export async function setHooks(configPath = '.', outFolder?: string) {
+export async function createHooks(configPath = '.') {
   const { githooks, configPath: path } = await getGitHooks(configPath);
 
   if (!githooks) {
@@ -17,7 +17,7 @@ export async function setHooks(configPath = '.', outFolder?: string) {
     Deno.exit(246);
   }
 
-  const createdHooks: string[] = [];
+  const createdHooks: CreatedHookObject[] = [];
   for (const gitHookName of (Object.keys(githooks) as GitHooks[])) {
     if (!HOOKS.includes(gitHookName)) {
       logger(`\`${gitHookName}\` is not a valid Git hook, skipping...`).warn();
@@ -35,33 +35,16 @@ export async function setHooks(configPath = '.', outFolder?: string) {
       continue;
     }
 
-    const createdGitHookPath = `${
-      outFolder ?? `${path}/.git/hooks/`
-    }${gitHookName}`;
-    const createdGitHookScript = createGitHookScript(gitHookCommands);
-
-    await Deno.writeTextFile(createdGitHookPath, createdGitHookScript, {
-      mode: 0o755,
-    }).catch(() => {
-      logger('Entered path is valid or a Git repository.').error();
-      Deno.exit(248);
+    createdHooks.push({
+      gitHookName,
+      gitHookScript: createGitHookScript(gitHookCommands),
     });
-
-    createdHooks.push(gitHookName);
   }
 
-  if (createdHooks.length) {
-    logger(
-      `Created ${
-        (createdHooks.length > 1)
-          ? `${createdHooks.join(', ')} Git hooks`
-          : `${createdHooks[0]} Git hook`
-      } successfully.`,
-    ).info();
-  } else {
-    logger('No Git hook created, exiting...').warn();
-    Deno.exit(247);
-  }
+  return {
+    hooksPath: path,
+    createdHooks,
+  };
 }
 
 export async function getGitHooks(configPath: string) {
