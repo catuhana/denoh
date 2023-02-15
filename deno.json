@@ -1,7 +1,7 @@
 {
   "fmt": {
     "files": {
-      "include": ["denoh.ts", "src/"]
+      "include": ["denoh.ts", "src/", "tests/"]
     },
     "options": {
       "indentWidth": 2,
@@ -12,7 +12,7 @@
   },
   "lint": {
     "files": {
-      "include": ["denoh.ts", "src/"]
+      "include": ["denoh.ts", "src/", "tests/"]
     }
   },
   "tasks": {
