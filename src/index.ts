@@ -62,7 +62,7 @@ export async function setHooks(configPath = '.') {
   }
 }
 
-async function getGithooks(configPath: string) {
+export async function getGithooks(configPath: string) {
   let configFile;
   try {
     const isDirectory = (await Deno.lstat(configPath)).isDirectory;
@@ -109,7 +109,7 @@ async function getGithooks(configPath: string) {
   }
 }
 
-function createGitHookScript(commands: string[]) {
+export function createGitHookScript(commands: string[]) {
   const script = ['#!/bin/sh'];
 
   for (const command of commands) {
