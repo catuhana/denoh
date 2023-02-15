@@ -23,6 +23,7 @@
   },
   "imports": {
     "std:encoding/jsonc": "https://deno.land/std@0.177.0/encoding/jsonc.ts",
+    "std:testing/snapshot": "https://deno.land/std@0.177.0/testing/snapshot.ts",
     "std:path": "https://deno.land/std@0.177.0/path/mod.ts"
   },
   "githooks": {
