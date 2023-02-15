@@ -125,13 +125,13 @@ export function createGitHookScript(commands: string[]) {
           case Operators.AND:
           case Operators.OR:
           case Operators.SEPARATOR:
-            block.add(`deno task ${splitCommand[i - 1]}`);
-            block.add(
-              (w === Operators.SEPARATOR && Deno.build.os === 'windows')
-                ? '&'
-                : w,
-            );
-            block.add(`deno task ${splitCommand[i + 1]}`);
+            block.add(`deno task ${splitCommand[i - 1]}`)
+              .add(
+                (w === Operators.SEPARATOR && Deno.build.os === 'windows')
+                  ? '&'
+                  : w,
+              )
+              .add(`deno task ${splitCommand[i + 1]}`);
         }
       });
 
