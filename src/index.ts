@@ -1,12 +1,7 @@
-import {
-  parse as parseJSONC, type JSONValue
-} from 'std:encoding/jsonc';
-import {
-  parse as parsePath,
-  resolve as resolvePath
-} from 'std:path';
+import { type JSONValue, parse as parseJSONC } from 'std:encoding/jsonc';
+import { parse as parsePath, resolve as resolvePath } from 'std:path';
 
-import { HOOKS } from './constants.ts';
+import { HOOKS, Operators } from './constants.ts';
 import { logger } from './utils.ts';
 
 import type { DenoConfig, GitHooks } from './types.d.ts';
@@ -102,7 +97,8 @@ async function getGithooks(configPath: string) {
       logger('Entered file does not exists.').error();
       exitCode = 243;
     } else if (err.name === 'SyntaxError') {
-      logger(`Could not parse Deno configuration\n    > ${err.message}`).error();
+      logger(`Could not parse Deno configuration\n    > ${err.message}`)
+        .error();
       exitCode = 244;
     } else {
       logger(`Unknown error: ${err.message}`).error();
@@ -120,12 +116,28 @@ function createGitHookScript(commands: string[]) {
     if (command.startsWith('!')) {
       script.push(command.slice(1));
     } else {
-      command.split('|').forEach((command) =>
-        script.push(`deno task ${command.trim()}`)
-      );
+      // God forgive me for what I'm doing
+      const splitCommand = command.split(' ');
+
+      const block = new Set();
+      splitCommand.forEach((w, i) => {
+        switch (w) {
+          case Operators.AND:
+          case Operators.OR:
+          case Operators.SEPARATOR:
+            block.add(`deno task ${splitCommand[i - 1]}`);
+            block.add(
+              (w === Operators.SEPARATOR && Deno.build.os === 'windows')
+                ? '&'
+                : w,
+            );
+            block.add(`deno task ${splitCommand[i + 1]}`);
+        }
+      });
+
+      script.push(Array.from(block.values()).join(' '));
     }
   }
 
   return script.join('\n');
 }
-

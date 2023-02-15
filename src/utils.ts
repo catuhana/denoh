@@ -25,4 +25,4 @@ export const logger = (message: string) => {
       );
     },
   };
-}
+};

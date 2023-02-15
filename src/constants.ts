@@ -18,3 +18,9 @@ export const HOOKS = [
   'post-update',
   'reference-transaction',
 ] as const;
+
+export const Operators = {
+  AND: '&&',
+  OR: '||',
+  SEPARATOR: ';',
+} as const;
