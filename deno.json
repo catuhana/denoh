@@ -17,6 +17,7 @@
   },
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
+    "test": "deno test -A tests/index.ts",
     "lint": "deno lint",
     "lint:fmt": "deno fmt --check",
     "set-hooks": "deno task run"
@@ -27,6 +28,6 @@
     "std:path": "https://deno.land/std@0.177.0/path/mod.ts"
   },
   "githooks": {
-    "pre-commit": ["lint ; lint:fmt"]
+    "pre-commit": ["test && lint ; lint:fmt"]
   }
 }
