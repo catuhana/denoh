@@ -6,7 +6,7 @@ import { logger } from './utils.ts';
 
 import type { DenoConfig, GitHooks } from './types.d.ts';
 
-export async function setHooks(configPath = '.') {
+export async function setHooks(configPath = '.', outFolder?: string) {
   const { githooks, configPath: path } = await getGithooks(configPath);
 
   if (!githooks) {
@@ -35,13 +35,15 @@ export async function setHooks(configPath = '.') {
       continue;
     }
 
-    const createdGitHookPath = `${path}/.git/hooks/${gitHookName}`;
+    const createdGitHookPath = `${
+      outFolder ?? `${path}/.git/hooks/`
+    }${gitHookName}`;
     const createdGitHookScript = createGitHookScript(gitHookCommands);
 
     await Deno.writeTextFile(createdGitHookPath, createdGitHookScript, {
       mode: 0o755,
     }).catch(() => {
-      logger('Entered path is not a Git repository.').error();
+      logger('Entered path is valid or a Git repository.').error();
       Deno.exit(248);
     });
 
@@ -132,6 +134,9 @@ export function createGitHookScript(commands: string[]) {
                   : w,
               )
               .add(`deno task ${splitCommand[i + 1]}`);
+            break;
+          default:
+            block.add(`deno task ${w}`);
         }
       });
 
