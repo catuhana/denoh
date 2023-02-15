@@ -128,11 +128,7 @@ export function createGitHookScript(commands: string[]) {
           case Operators.OR:
           case Operators.SEPARATOR:
             block.add(`deno task ${splitCommand[i - 1]}`)
-              .add(
-                (w === Operators.SEPARATOR && Deno.build.os === 'windows')
-                  ? '&'
-                  : w,
-              )
+              .add(w)
               .add(`deno task ${splitCommand[i + 1]}`);
             break;
           default:
