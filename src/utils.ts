@@ -17,7 +17,7 @@ export const logger = (message: string) => {
       );
     },
     info() {
-      console.log(
+      console.info(
         `%cdenoh%c :: %c${message}`,
         'background-color: green; color: black; font-weight: bold',
         'color: grey',
