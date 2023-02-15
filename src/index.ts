@@ -118,25 +118,18 @@ export function createGitHookScript(commands: string[]) {
     if (command.startsWith('!')) {
       script.push(command.slice(1));
     } else {
-      // God forgive me for what I'm doing
-      const splitCommand = command.split(' ');
-
-      const block = new Set();
-      splitCommand.forEach((w, i) => {
+      const block = command.split(' ').map((w) => {
         switch (w) {
           case Operators.AND:
           case Operators.OR:
           case Operators.SEPARATOR:
-            block.add(`deno task ${splitCommand[i - 1]}`)
-              .add(w)
-              .add(`deno task ${splitCommand[i + 1]}`);
-            break;
+            return w;
           default:
-            block.add(`deno task ${w}`);
+            return `deno task ${w}`;
         }
       });
 
-      script.push(Array.from(block.values()).join(' '));
+      script.push(block.join(' '));
     }
   }
 
