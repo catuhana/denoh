@@ -10,12 +10,13 @@ A script for generating Git hooks by extending Deno's configuration file.
 - Custom exit codes for scripting
 - Check if hook is valid
 - Support for running in another folder or entering custom Deno configuration file
+- Support for logical AND (&&) and OR (||) operators.
 
 ## Installation or Running
 
 You can install this script globally by running `deno install https://github.com/tuhanayim/denoh/raw/main/denoh.ts` command, or run without installing by running `deno run https://github.com/tuhanayim/denoh/raw/main/denoh.ts`
 
-To run a specific version, replace `/raw/*main*/` part on URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/raw/v1.0.0/`.
+> **Note:** To run a specific version, replace `/raw/*main*/` part on URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/raw/v1.0.0/`.
 
 ## Usage
 
@@ -36,7 +37,7 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
     // And you can mix them together:
     "post-checkout": [
       "!echo 'Changed branch, running lint tasks...'",
-      "lint ; lint:fmt", // shorthand of `["lint", "lint:fmt"]`
+      "lint ; lint:fmt", // denoh supports logical AND, OR and command separators
       "!echo 'Tasks ran successfully.'"
     ]
   }
@@ -60,8 +61,7 @@ echo 'Added commit'
 
 #!/bin/sh
 echo 'Changed branch, running lint tasks...'
-deno task lint
-deno task lint:fmt
+deno task lint ; deno task lint:fmt
 echo 'Tasks ran successfully.'
 ```
 
@@ -70,8 +70,8 @@ echo 'Tasks ran successfully.'
 You can pass folder name or configuration file name by passing its path as an argument. If entered path is different, it will create Git hooks in passed folder.
 
 ```sh
-denoh ../my-beautiful-project
-denoh deno.dev.jsonc
+❯ denoh ../my-beautiful-project
+❯ denoh deno.dev.jsonc
 ```
 
 ## Exit Codes
