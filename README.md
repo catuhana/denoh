@@ -2,16 +2,6 @@
 
 A script for generating Git hooks by extending Deno's configuration file.
 
-## Differences from [deno-githooks](https://github.com/deco-cx/deno-githooks)
-
-- Support for JSONC configurations
-- Support for shell commands
-- Beautiful log messages
-- Custom exit codes for scripting
-- Check if hook is valid
-- Support for running in another folder or entering custom Deno configuration file
-- Support for logical AND (&&) and OR (||) operators.
-
 ## Installation or Running
 
 You can install this script globally by running `deno install https://github.com/tuhanayim/denoh/raw/main/denoh.ts` command, or run without installing by running `deno run https://github.com/tuhanayim/denoh/raw/main/denoh.ts`
