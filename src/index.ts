@@ -6,7 +6,7 @@ import { logger } from './utils.ts';
 
 import type { CreatedHookObject, DenoConfig, GitHooks } from './types.d.ts';
 
-export async function createHooks(configPath = '.') {
+export const createHooks = async (configPath = '.') => {
   const { githooks, configPath: path } = await getGitHooks(configPath);
 
   if (!githooks) {
@@ -45,9 +45,9 @@ export async function createHooks(configPath = '.') {
     hooksPath: path,
     createdHooks,
   };
-}
+};
 
-export async function getGitHooks(configPath: string) {
+export const getGitHooks = async (configPath: string) => {
   let configFile;
   try {
     const isDirectory = (await Deno.lstat(configPath)).isDirectory;
@@ -92,9 +92,9 @@ export async function getGitHooks(configPath: string) {
 
     Deno.exit(exitCode);
   }
-}
+};
 
-export function createGitHookScript(commands: string[]) {
+export const createGitHookScript = (commands: string[]) => {
   const script = ['#!/bin/sh'];
 
   for (const command of commands) {
@@ -117,4 +117,4 @@ export function createGitHookScript(commands: string[]) {
   }
 
   return script.join('\n');
-}
+};
