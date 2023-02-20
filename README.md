@@ -4,13 +4,15 @@ A script for generating Git hooks by extending Deno's configuration file.
 
 ## Installation or Running
 
-You can install this script globally by running `deno install https://github.com/tuhanayim/denoh/raw/main/denoh.ts` command, or run without installing by running `deno run https://github.com/tuhanayim/denoh/raw/main/denoh.ts`
+You can install denoh globally by running `deno install https://deno.land/x/denoh/denoh.ts` command, or run by running `deno run https://deno.land/x/denoh/denoh.ts`.
 
-> **Note:** To run a specific version, replace `/raw/*main*/` part on URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/raw/v1.0.0/`.
+> **Note**: To run/install a specific version, you can add version specifier after `/x/denoh/` part of URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/x/denoh@v1.0.0/`.
+
+> **Note**: Older versions of denoh can be found at its GitHub repository, and can be run/installed like above with only changing the URL to a raw source file.
 
 ## Usage
 
-Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.{json,jsonc}) if not exists. Denoh looks for `githooks` key of configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside of an array of strings. Let's say our Deno configuration file is this example below:
+Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.{json,jsonc}) if not exists. Denoh looks for `githooks` key of the configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside an array of strings. Let's say our Deno configuration file is this example below:
 
 ```jsonc
 {
@@ -55,9 +57,9 @@ deno task lint ; deno task lint:fmt
 echo 'Tasks ran successfully.'
 ```
 
-### Running for different folder or configuration files
+### Running at different folder or configuration files
 
-You can pass folder name or configuration file name by passing its path as an argument. If entered path is different, it will create Git hooks in passed folder.
+You can pass folder name or configuration file name by passing its path as an argument. If the entered path is different, it will create Git hooks in the entered folder.
 
 ```sh
 ❯ denoh ../my-beautiful-project
