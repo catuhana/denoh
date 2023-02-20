@@ -1,5 +1,11 @@
-import { type JSONValue, parse as parseJSONC } from 'std/encoding/jsonc';
-import { parse as parsePath, resolve as resolvePath } from 'std/path';
+import {
+  type JSONValue,
+  parse as parseJSONC,
+} from 'https://deno.land/std@0.177.0/encoding/jsonc.ts';
+import {
+  parse as parsePath,
+  resolve as resolvePath,
+} from 'https://deno.land/std@0.177.0/path/mod.ts';
 
 import { HOOKS, OPERATORS } from './constants.ts';
 import { log } from './utils.ts';
