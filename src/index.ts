@@ -1,8 +1,8 @@
 import { type JSONValue, parse as parseJSONC } from 'std:encoding/jsonc';
 import { parse as parsePath, resolve as resolvePath } from 'std:path';
 
-import { HOOKS, Operators } from './constants.ts';
-import { logger } from './utils.ts';
+import { HOOKS, OPERATORS } from './constants.ts';
+import { log } from './utils.ts';
 
 import type { CreatedHookObject, DenoConfig, GitHooks } from './types.d.ts';
 
@@ -10,17 +10,17 @@ export const createHooks = async (configPath = '.') => {
   const { githooks, configPath: path } = await getGitHooks(configPath);
 
   if (!githooks) {
-    logger('Deno config file does not have `githooks` field.').error();
+    log('Deno config file does not have `githooks` field.').error();
     Deno.exit(245);
   } else if (typeof githooks !== 'object' || Array.isArray(githooks)) {
-    logger('`githooks` field must be an Object.').error();
+    log('`githooks` field must be an Object.').error();
     Deno.exit(246);
   }
 
   const createdHooks: CreatedHookObject[] = [];
   for (const gitHookName of (Object.keys(githooks) as GitHooks[])) {
     if (!HOOKS.includes(gitHookName)) {
-      logger(`\`${gitHookName}\` is not a valid Git hook, skipping...`).warn();
+      log(`\`${gitHookName}\` is not a valid Git hook, skipping...`).warn();
       continue;
     }
 
@@ -29,7 +29,7 @@ export const createHooks = async (configPath = '.') => {
       !Array.isArray(gitHookCommands) ||
       gitHookCommands.every((c) => typeof c !== 'string')
     ) {
-      logger(
+      log(
         `\`${gitHookName}\` Git hook value must be an array of strings, skipping...`,
       ).warn();
       continue;
@@ -62,7 +62,7 @@ export const getGitHooks = async (configPath: string) => {
       }
 
       if (!configFile) {
-        logger(
+        log(
           `Deno configuration file (deno.{json,jsonc}) not found in ${configPath} folder.`,
         ).error();
         Deno.exit(243);
@@ -79,14 +79,14 @@ export const getGitHooks = async (configPath: string) => {
     let exitCode;
 
     if (err.name === 'NotFound') {
-      logger('Entered file does not exists.').error();
+      log('Entered file does not exists.').error();
       exitCode = 243;
     } else if (err.name === 'SyntaxError') {
-      logger(`Could not parse Deno configuration\n    > ${err.message}`)
+      log(`Could not parse Deno configuration\n    > ${err.message}`)
         .error();
       exitCode = 244;
     } else {
-      logger(`Unknown error: ${err.message}`).error();
+      log(`Unknown error: ${err.message}`).error();
       exitCode = 255;
     }
 
@@ -103,9 +103,9 @@ export const createGitHookScript = (commands: string[]) => {
     } else {
       const block = command.split(' ').map((w) => {
         switch (w) {
-          case Operators.AND:
-          case Operators.OR:
-          case Operators.SEPARATOR:
+          case OPERATORS.AND:
+          case OPERATORS.OR:
+          case OPERATORS.SEPARATOR:
             return w;
           default:
             return `deno task ${w}`;

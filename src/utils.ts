@@ -1,4 +1,4 @@
-export const logger = (message: string) => {
+export const log = (message: string) => {
   return {
     error() {
       console.error(

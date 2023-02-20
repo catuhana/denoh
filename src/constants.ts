@@ -19,7 +19,7 @@ export const HOOKS = [
   'reference-transaction',
 ] as const;
 
-export const Operators = {
+export const OPERATORS = {
   AND: '&&',
   OR: '||',
   SEPARATOR: ';',
