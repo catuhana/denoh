@@ -1,5 +1,5 @@
-import { type JSONValue, parse as parseJSONC } from 'std:encoding/jsonc';
-import { parse as parsePath, resolve as resolvePath } from 'std:path';
+import { type JSONValue, parse as parseJSONC } from 'std/encoding/jsonc';
+import { parse as parsePath, resolve as resolvePath } from 'std/path';
 
 import { HOOKS, OPERATORS } from './constants.ts';
 import { log } from './utils.ts';
