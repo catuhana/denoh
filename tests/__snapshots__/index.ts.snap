@@ -24,44 +24,38 @@ deno task test1 && deno task test2 && deno task test3"
 
 snapshot[`getGitHooks() tests 1`] = `
 {
-  configPath: "C:\\\\Users\\\\Tuhana\\\\Documents\\\\Projects\\\\denoh\\\\tests",
-  githooks: {
-    "post-checkout": [
-      "!echo 'Changed branch, running lint tasks...'",
-      "lint ; lint:fmt",
-      "!echo 'Tasks ran successfully.'",
-    ],
-    "post-commit": [
-      "!echo 'Added commit'",
-    ],
-    "pre-commit": [
-      "lint",
-    ],
-  },
+  "post-checkout": [
+    "!echo 'Changed branch, running lint tasks...'",
+    "lint ; lint:fmt",
+    "!echo 'Tasks ran successfully.'",
+  ],
+  "post-commit": [
+    "!echo 'Added commit'",
+  ],
+  "pre-commit": [
+    "lint",
+  ],
 }
 `;
 
 snapshot[`createHooks() tests 1`] = `
-{
-  createdHooks: [
-    {
-      gitHookName: "pre-commit",
-      gitHookScript: "#!/bin/sh
+[
+  {
+    gitHookName: "pre-commit",
+    gitHookScript: "#!/bin/sh
 deno task lint",
-    },
-    {
-      gitHookName: "post-commit",
-      gitHookScript: "#!/bin/sh
+  },
+  {
+    gitHookName: "post-commit",
+    gitHookScript: "#!/bin/sh
 echo 'Added commit'",
-    },
-    {
-      gitHookName: "post-checkout",
-      gitHookScript: "#!/bin/sh
+  },
+  {
+    gitHookName: "post-checkout",
+    gitHookScript: "#!/bin/sh
 echo 'Changed branch, running lint tasks...'
 deno task lint ; deno task lint:fmt
 echo 'Tasks ran successfully.'",
-    },
-  ],
-  hooksPath: "C:\\\\Users\\\\Tuhana\\\\Documents\\\\Projects\\\\denoh\\\\tests",
-}
+  },
+]
 `;

@@ -20,11 +20,11 @@ Deno.test('createGitHookScript() tests', async (t) => {
 Deno.test('getGitHooks() tests', async (t) => {
   const getGitHooks = (await import('../src/index.ts')).getGitHooks;
 
-  assertSnapshot(t, await getGitHooks('tests/deno.test.jsonc'));
+  assertSnapshot(t, (await getGitHooks('tests/deno.test.jsonc')).githooks);
 });
 
 Deno.test('createHooks() tests', async (t) => {
   const createHooks = (await import('../src/index.ts')).createHooks;
 
-  assertSnapshot(t, await createHooks('tests/deno.test.jsonc'));
+  assertSnapshot(t, (await createHooks('tests/deno.test.jsonc')).createdHooks);
 });
