@@ -1,5 +1,5 @@
 import { createHooks } from './src/index.ts';
-import { logger } from './src/utils.ts';
+import { log } from './src/utils.ts';
 
 if (import.meta.main) {
   const hooks = await createHooks(Deno.args[0]);
@@ -13,7 +13,7 @@ if (import.meta.main) {
         mode: 0o755,
       },
     ).catch(() => {
-      logger('Entered path is not valid or not a Git repository.').error();
+      log('Entered path is not valid or not a Git repository.').error();
       Deno.exit(248);
     });
 
@@ -21,7 +21,7 @@ if (import.meta.main) {
   }
 
   if (createdHooks.length) {
-    logger(
+    log(
       `Created ${
         (createdHooks.length > 1)
           ? `${createdHooks.join(', ')} Git hooks`
@@ -29,7 +29,7 @@ if (import.meta.main) {
       } successfully.`,
     ).info();
   } else {
-    logger('No Git hook created, exiting...').warn();
+    log('No Git hook created, exiting...').warn();
     Deno.exit(247);
   }
 }
