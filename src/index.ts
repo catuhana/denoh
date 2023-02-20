@@ -6,6 +6,10 @@ import { log } from './utils.ts';
 
 import type { CreatedHookObject, DenoConfig, GitHooks } from './types.d.ts';
 
+/**
+ * Generates hooks with their name and script, returns parsed entered `configPath` and created hooks in an Object.
+ * @param configPath Deno configuration file path.
+ */
 export const createHooks = async (configPath = '.') => {
   const { githooks, configPath: path } = await getGitHooks(configPath);
 
@@ -47,6 +51,10 @@ export const createHooks = async (configPath = '.') => {
   };
 };
 
+/**
+ * Gets Git hooks and returns `githooks` object and parsed path as an Object.
+ * @param configPath {@link createHooks.configPath}
+ */
 export const getGitHooks = async (configPath: string) => {
   let configFile;
   try {
@@ -94,6 +102,10 @@ export const getGitHooks = async (configPath: string) => {
   }
 };
 
+/**
+ * Creates Git hook scripts from hook's values.
+ * @param commands Commands to generate.
+ */
 export const createGitHookScript = (commands: string[]) => {
   const script = ['#!/bin/sh'];
 

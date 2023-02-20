@@ -1,3 +1,7 @@
+/**
+ * Custom styled logger.
+ * @param message Log message.
+ */
 export const log = (message: string) => {
   return {
     error() {

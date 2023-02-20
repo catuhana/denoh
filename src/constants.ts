@@ -1,3 +1,6 @@
+/**
+ * All valid Git hooks as a constant array.
+ */
 export const HOOKS = [
   'applypatch-msg',
   'pre-applypatch',
@@ -19,6 +22,9 @@ export const HOOKS = [
   'reference-transaction',
 ] as const;
 
+/**
+ * Operators object for Logical AND, OR and separator.
+ */
 export const OPERATORS = {
   AND: '&&',
   OR: '||',
