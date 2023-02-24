@@ -1,4 +1,4 @@
-import { assertSnapshot } from 'https://deno.land/std@0.177.0/testing/snapshot.ts';
+import { assertSnapshot } from 'https://deno.land/std@0.178.0/testing/snapshot.ts';
 
 Deno.test('createGitHookScript() tests', async (t) => {
   const createGitHookScript =
