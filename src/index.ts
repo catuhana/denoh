@@ -10,13 +10,21 @@ import {
 import { HOOKS, OPERATORS } from './constants.ts';
 import { log } from './utils.ts';
 
-import type { CreatedHookObject, DenoConfig, GitHooks } from './types.d.ts';
+import type {
+  CreatedHook,
+  CreatedHookObject,
+  DenoConfig,
+  GitHookObject,
+  GitHooks,
+} from './types.d.ts';
 
 /**
  * Generates hooks with their name and script, returns parsed entered `configPath` and created hooks in an Object.
  * @param configPath Deno configuration file path.
  */
-export const createHooks = async (configPath = '.') => {
+export const createHooks = async (
+  configPath = '.',
+): Promise<CreatedHook> | never => {
   const { githooks, configPath: path } = await getGitHooks(configPath);
 
   if (!githooks) {
@@ -61,7 +69,9 @@ export const createHooks = async (configPath = '.') => {
  * Gets Git hooks and returns `githooks` object and parsed path as an Object.
  * @param configPath {@link createHooks.configPath}
  */
-export const getGitHooks = async (configPath: string) => {
+export const getGitHooks = async (
+  configPath: string,
+): Promise<GitHookObject> | never => {
   let configFile;
   try {
     const isDirectory = (await Deno.lstat(configPath)).isDirectory;
@@ -112,7 +122,7 @@ export const getGitHooks = async (configPath: string) => {
  * Creates Git hook scripts from hook's values.
  * @param commands Commands to generate.
  */
-export const createGitHookScript = (commands: string[]) => {
+export const createGitHookScript = (commands: string[]): string => {
   const script = ['#!/bin/sh'];
 
   for (const command of commands) {

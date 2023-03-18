@@ -6,7 +6,17 @@ export interface DenoConfig {
   githooks: Record<GitHooks, string[]>;
 }
 
+export interface CreatedHook {
+  hooksPath: string;
+  createdHooks: CreatedHookObject[];
+}
+
 export interface CreatedHookObject {
   gitHookName: string;
   gitHookScript: string;
+}
+
+export interface GitHookObject {
+  githooks: DenoConfig['githooks'];
+  configPath: string;
 }
