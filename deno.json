@@ -1,7 +1,7 @@
 {
   "fmt": {
     "files": {
-      "include": ["denoh.ts", "src/", "tests/"]
+      "include": ["denoh.ts", "src/"]
     },
     "options": {
       "indentWidth": 2,
@@ -12,12 +12,12 @@
   },
   "lint": {
     "files": {
-      "include": ["denoh.ts", "src/", "tests/"]
+      "include": ["denoh.ts", "src/"]
     }
   },
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
-    "test": "deno test -A tests/index.ts",
+    "test": "deno test -A",
     "lint": "deno lint",
     "lint:fmt": "deno fmt --check",
     "set-hooks": "deno task run"
