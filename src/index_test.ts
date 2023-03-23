@@ -1,7 +1,7 @@
 import { assertSnapshot } from 'https://deno.land/std@0.180.0/testing/snapshot.ts';
 
 Deno.test('createGitHookScript() tests', async (t) => {
-  const createGitHookScript = (await import('./index.ts')).createGitHookScript;
+  const { createGitHookScript } = await import('./index.ts');
 
   await assertSnapshot(t, createGitHookScript(['lint']));
   await assertSnapshot(
@@ -17,13 +17,13 @@ Deno.test('createGitHookScript() tests', async (t) => {
 });
 
 Deno.test('getGitHooks() tests', async (t) => {
-  const getGitHooks = (await import('./index.ts')).getGitHooks;
+  const { getGitHooks } = await import('./index.ts');
 
   assertSnapshot(t, (await getGitHooks('./deno.jsonc.test')).githooks);
 });
 
 Deno.test('createHooks() tests', async (t) => {
-  const createHooks = (await import('./index.ts')).createHooks;
+  const { createHooks } = await import('./index.ts');
 
   assertSnapshot(t, (await createHooks('./deno.jsonc.test')).createdHooks);
 });
