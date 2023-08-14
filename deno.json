@@ -1,19 +1,15 @@
 {
   "fmt": {
-    "files": {
-      "include": ["denoh.ts", "src/"]
-    },
-    "options": {
-      "indentWidth": 2,
-      "lineWidth": 80,
-      "singleQuote": true,
-      "useTabs": false
-    }
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "include": ["denoh.ts", "src/"]
   },
   "lint": {
-    "files": {
-      "include": ["denoh.ts", "src/"]
-    }
+    "include": ["denoh.ts", "src/"]
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.198.0/"
   },
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
