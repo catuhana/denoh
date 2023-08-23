@@ -7,6 +7,11 @@ import { ExitCodes } from './src/enums.ts';
 
 const VERSION = '3.0.0';
 
+const listFormatter = new Intl.ListFormat('en', {
+  style: 'long',
+  type: 'conjunction',
+});
+
 if (import.meta.main) {
   const args = parseFlags(Deno.args);
 
@@ -19,20 +24,21 @@ if (import.meta.main) {
     const config = await readConfig(configPath).catch((err: DenohError) =>
       err.logAndExit()
     );
-    const hooks = await createHooks(config).catch((err: DenohError) =>
-      err.logAndExit()
-    );
-
+    const hooks = createHooks(config);
     const writtenHooks = await writeHooks(hooks, hooksPath, configPath).catch((
       err: DenohError,
     ) => err.logAndExit());
 
-    if (writtenHooks.amount) {
+    console.log({
+      config,
+      hooks,
+      writtenHooks,
+    });
+
+    if (writtenHooks.length) {
       info(
-        `Created ${
-          (writtenHooks.amount > 1)
-            ? `${writtenHooks.hooks.join(', ')} Git hooks`
-            : `${writtenHooks.hooks[0]} Git hook`
+        `Created \`${listFormatter.format(writtenHooks)}\` ${
+          writtenHooks.length > 1 ? 'hooks' : 'hook'
         } successfully.`,
       );
     } else {
