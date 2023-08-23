@@ -1,35 +1,43 @@
-import { createHooks } from './src/index.ts';
-import { log } from './src/utils.ts';
+import { parse as parseFlags } from 'std/flags/mod.ts';
+
+import { createHooks, readConfig, writeHooks } from './src/hook.ts';
+import { DenohError } from './src/error.ts';
+import { info, warn } from './src/logger.ts';
+import { ExitCodes } from './src/enums.ts';
+
+const VERSION = '3.0.0';
 
 if (import.meta.main) {
-  const hooks = await createHooks(Deno.args[0]);
+  const args = parseFlags(Deno.args);
 
-  const createdHooks: string[] = [];
-  for (const hook of hooks.createdHooks) {
-    await Deno.writeTextFile(
-      `${hooks.hooksPath}/.git/hooks/${hook.gitHookName}`,
-      hook.gitHookScript,
-      {
-        mode: 0o755,
-      },
-    ).catch(() => {
-      log('Entered path is not valid or not a Git repository.').error();
-      Deno.exit(248);
-    });
+  if (args.V) {
+    console.log(`denoh v${VERSION}`);
+  } else if (args._) {
+    const configPath = args._[0] as string;
+    const hooksPath = args.h;
 
-    createdHooks.push(hook.gitHookName);
-  }
+    const config = await readConfig(configPath).catch((err: DenohError) =>
+      err.logAndExit()
+    );
+    const hooks = await createHooks(config).catch((err: DenohError) =>
+      err.logAndExit()
+    );
 
-  if (createdHooks.length) {
-    log(
-      `Created ${
-        (createdHooks.length > 1)
-          ? `${createdHooks.join(', ')} Git hooks`
-          : `${createdHooks[0]} Git hook`
-      } successfully.`,
-    ).info();
-  } else {
-    log('No Git hook created, exiting...').warn();
-    Deno.exit(247);
+    const writtenHooks = await writeHooks(hooks, hooksPath, configPath).catch((
+      err: DenohError,
+    ) => err.logAndExit());
+
+    if (writtenHooks.amount) {
+      info(
+        `Created ${
+          (writtenHooks.amount > 1)
+            ? `${writtenHooks.hooks.join(', ')} Git hooks`
+            : `${writtenHooks.hooks[0]} Git hook`
+        } successfully.`,
+      );
+    } else {
+      warn('No Git hook created.');
+      Deno.exit(ExitCodes.NoHookCreated);
+    }
   }
 }
