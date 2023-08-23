@@ -49,10 +49,10 @@ Deno.test('Create Hooks', async () => {
     'name': 'post-commit',
     script: generateGitHookScript(validGitHook['post-commit']),
   }]);
-  // @ts-expect-error
+  // @ts-expect-error These will have type errors.
   assertEquals(createHooks(invalidGitHookName), []);
-  // @ts-expect-error
+  // @ts-expect-error These will have type errors.
   assertEquals(createHooks(invalidGitHookValue), []);
-  // @ts-expect-error
+  // @ts-expect-error These will have type errors.
   assertEquals(createHooks(invalidGitHookValueString), []);
 });

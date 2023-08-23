@@ -21,6 +21,6 @@
     "set-hooks": "deno task run"
   },
   "githooks": {
-    "pre-commit": ["createSchema && test && lint ; lint:fmt"]
+    "pre-commit": ["createSchema", "test", "lint", "lint:fmt"]
   }
 }
