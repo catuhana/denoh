@@ -1,3 +1,6 @@
+/**
+ * Exit codes enum when an error occurs.
+ */
 export enum ExitCodes {
   Success = 0,
   NotFound = 243,

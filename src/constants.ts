@@ -32,7 +32,14 @@ export const HOOKS = [
   'post-index-change',
 ] as const;
 
+/**
+ * Denoh version.
+ */
 export const VERSION = '3.0.0';
+
+/**
+ * Help text for denoh CLI.
+ */
 export const HELP_TEXT = `
 denoh - Generate Git hook by extending Deno's Configuration file.
 

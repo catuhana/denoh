@@ -11,6 +11,11 @@ const operatorsRegex = new RegExp(
   `^(${Object.values(Operators).join('|')})$`,
 );
 
+/**
+ * Create hooks from {@link https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type | Record}<{@link GitHooks}, string[]>.
+ * @example
+ * const hooks = createHooks(config.gitHooks)
+ */
 export const createHooks = (
   gitHooks: Awaited<ReturnType<typeof readConfig>>['gitHooks'],
 ) => {
@@ -48,6 +53,12 @@ export const createHooks = (
   return createdHooks ?? null;
 };
 
+/**
+ * Writes hooks created by {@link createHooks} to the `hooksPath` path.
+ * @param hooksPath - Where to write hooks. Defaults to `configPath/hooksPath` is `-g` flag is not present.
+ * @param configPath - Where to write hooks in. Defaults to current folder.
+ * @example writeHooks(hooks)
+ */
 export const writeHooks = async (
   hooks: ReturnType<typeof createHooks>,
   hooksPath = '.git/hooks',
@@ -75,6 +86,10 @@ export const writeHooks = async (
   return createdGitHooks;
 };
 
+/**
+ * Generates Git hook scripts from an array of strings.
+ * @example generateGitHookScript(["cleanup", "lint && fmt"])
+ */
 export const generateGitHookScript = (commands: string[]) => {
   const script = ['#!/bin/sh'];
 
@@ -93,6 +108,11 @@ export const generateGitHookScript = (commands: string[]) => {
   return script.join('\n');
 };
 
+/**
+ * Reads config and returns its `githooks` field.
+ * @param configPath - From where/which file to read the config. Defaults to current directory.
+ * @example const config = readConfig()
+ */
 export const readConfig = async (configPath = '.') => {
   const fileExtensions = ['json', 'jsonc'];
 
