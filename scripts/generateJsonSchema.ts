@@ -20,12 +20,10 @@ interface Schema {
       title: string;
       type: 'object';
       additionalProperties: false;
-      properties?:
-        | any
-        | Record<
-          GitHooks,
-          { $ref: '#/$defs/hookProperties' }
-        >;
+      properties: Record<
+        GitHooks,
+        { $ref: '#/$defs/hookProperties' }
+      >;
     };
     hookProperties: {
       type: 'array';
@@ -53,7 +51,10 @@ const schema: Schema = {
       title: 'Git hooks object.',
       type: 'object',
       additionalProperties: false,
-      properties: {},
+      properties: {} as Record<
+        GitHooks,
+        { $ref: '#/$defs/hookProperties' }
+      >,
     },
     hookProperties: {
       type: 'array',
