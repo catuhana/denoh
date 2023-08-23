@@ -29,12 +29,6 @@ if (import.meta.main) {
       err: DenohError,
     ) => err.logAndExit());
 
-    console.log({
-      config,
-      hooks,
-      writtenHooks,
-    });
-
     if (writtenHooks.length) {
       info(
         `Created \`${listFormatter.format(writtenHooks)}\` ${

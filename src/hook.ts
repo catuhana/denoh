@@ -1,7 +1,7 @@
 import { parse as parseJsonc } from 'std/jsonc/parse.ts';
 
 import { ExitCodes, Operators } from './enums.ts';
-import { error } from './logger.ts';
+import { error, warn } from './logger.ts';
 import { DenohError } from './error.ts';
 
 import { HOOKS } from './constants.ts';
@@ -14,17 +14,36 @@ const operatorsRegex = new RegExp(
 export const createHooks = (
   config: Awaited<ReturnType<typeof readConfig>>,
 ) => {
-  const createdHooks = Object.entries(config.githooks)
-    .filter(
-      ([gitHookName, gitHookCommands]) =>
-        HOOKS.includes(gitHookName as GitHooks) &&
-        Array.isArray(gitHookCommands) &&
-        gitHookCommands.every((c) => typeof c === 'string'),
-    )
-    .map(([gitHookName, gitHookCommands]) => ({
-      gitHookName,
-      gitHookScript: generateGitHookScript(gitHookCommands),
-    }));
+  const createdHooks: {
+    name: string;
+    script: string;
+  }[] = [];
+
+  for (
+    const [gitHookName, gitHookCommands] of Object.entries(
+      config.githooks,
+    ) as [GitHooks, string[]][]
+  ) {
+    if (!HOOKS.includes(gitHookName)) {
+      warn(`\`${gitHookName}\` Git hook does not exist. Skipping...`);
+      continue;
+    } else if (!Array.isArray(gitHookCommands)) {
+      warn(`\`${gitHookName}\` Git hook's value is not an array. Skipping...`);
+      continue;
+    } else if (
+      !gitHookCommands.every((command) => typeof command === 'string')
+    ) {
+      warn(
+        `\`${gitHookName}\` Git hook's value should be an array of strings. Skipping...`,
+      );
+      continue;
+    }
+
+    createdHooks.push({
+      name: gitHookName,
+      script: generateGitHookScript(gitHookCommands),
+    });
+  }
 
   return createdHooks ?? null;
 };
@@ -38,18 +57,18 @@ export const writeHooks = async (
 
   for (const hook of hooks) {
     await Deno.writeTextFile(
-      `${configPath}/${hooksPath}/${hook.gitHookName}`,
-      hook.gitHookScript,
+      `${configPath}/${hooksPath}/${hook.name}`,
+      hook.script,
       {
         mode: 0o755,
       },
     ).catch((err) =>
       error(
-        `An error ocurred when creating ${hook.gitHookName} hook: ${err.message}`,
+        `An error ocurred when creating ${hook.name} hook: ${err.message}`,
       )
     );
 
-    createdGitHooks.push(hook.gitHookName);
+    createdGitHooks.push(hook.name);
   }
 
   return createdGitHooks;
