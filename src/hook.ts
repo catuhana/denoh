@@ -95,66 +95,62 @@ export const generateGitHookScript = (commands: string[]) => {
 export const readConfig = async (configPath = '.') => {
   const fileExtensions = ['json', 'jsonc'];
 
-  let fileInfo: Deno.FileInfo;
-  let configFile: string = '';
+  let configFile = '';
   let parsedConfigFile: DenoConfig;
 
   try {
-    fileInfo = await Deno.stat(configPath);
+    const fileInfo = await Deno.stat(configPath);
+
+    if (fileInfo.isDirectory) {
+      for await (const file of Deno.readDir(configPath)) {
+        if (fileExtensions.some((ext) => file.name === `deno.${ext}`)) {
+          configFile = await Deno.readTextFile(`${configPath}/${file.name}`);
+          break;
+        }
+      }
+
+      if (!configFile.length) {
+        throw new DenohError(
+          `Deno configuration file not found in \`${configPath}\` folder.`,
+        );
+      }
+    } else {
+      if (!fileExtensions.some((ext) => configPath.endsWith(`.${ext}`))) {
+        throw new DenohError(
+          'Entered file is not a Deno configuration file.',
+          ExitCodes.NotAConfigFile,
+        );
+      }
+
+      configFile = await Deno.readTextFile(configPath);
+    }
+
+    try {
+      parsedConfigFile = parseJsonc(configFile) as DenoConfig;
+    } catch (err) {
+      throw new DenohError(
+        `Could not parse Deno configuration file: ${err.message}`,
+        ExitCodes.ParseError,
+      );
+    }
+
+    if (!parsedConfigFile.githooks) {
+      throw new DenohError(
+        'Deno config file does not have the `githooks` field.',
+        ExitCodes.NoGitHookFields,
+      );
+    } else if (
+      typeof parsedConfigFile.githooks !== 'object' ||
+      Array.isArray(parsedConfigFile.githooks)
+    ) {
+      throw new DenohError(
+        '`githooks` field must be an Object.',
+        ExitCodes.GitHookFieldsNotObject,
+      );
+    }
+
+    return { githooks: parsedConfigFile.githooks };
   } catch {
     throw new DenohError('Could not found specified file.');
   }
-
-  if (fileInfo.isDirectory) {
-    for await (const file of Deno.readDir(configPath)) {
-      if (fileExtensions.some((ext) => file.name === `deno.${ext}`)) {
-        configFile = await Deno.readTextFile(
-          `${configPath}/${file.name}`,
-        );
-      }
-    }
-
-    if (!configFile.length) {
-      throw new DenohError(
-        `Deno configuration file not found in \`${configPath}\` folder.`,
-      );
-    }
-  } else {
-    if (!fileExtensions.some((ext) => configPath === `deno.${ext}`)) {
-      throw new DenohError(
-        'Entered file is not a Deno configuration file.',
-        ExitCodes.NotAConfigFile,
-      );
-    }
-
-    configFile = await Deno.readTextFile(configPath);
-  }
-
-  try {
-    parsedConfigFile = parseJsonc(configFile!) as DenoConfig;
-  } catch (err) {
-    throw new DenohError(
-      `Could not parse Deno configuration file: ${err.message}`,
-      ExitCodes.ParseError,
-    );
-  }
-
-  if (!parsedConfigFile.githooks) {
-    throw new DenohError(
-      'Deno config file does not have the `githooks` field.',
-      ExitCodes.NoGitHookFields,
-    );
-  } else if (
-    typeof parsedConfigFile.githooks !== 'object' ||
-    Array.isArray(parsedConfigFile.githooks)
-  ) {
-    throw new DenohError(
-      '`githooks` field must be an Object.',
-      ExitCodes.GitHookFieldsNotObject,
-    );
-  }
-
-  return {
-    githooks: parsedConfigFile.githooks,
-  };
 };
