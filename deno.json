@@ -1,24 +1,26 @@
 {
+  "$schema": "https://deno.land/x/denoh/schema.json",
   "fmt": {
     "indentWidth": 2,
     "semiColons": true,
     "singleQuote": true,
-    "include": ["denoh.ts", "src/"]
+    "include": ["denoh.ts", "src/", "scripts/"]
   },
   "lint": {
-    "include": ["denoh.ts", "src/"]
+    "include": ["denoh.ts", "src/", "scripts/"]
   },
   "imports": {
     "std/": "https://deno.land/std@0.198.0/"
   },
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
+    "createSchema": "deno run --allow-write scripts/generateJsonSchema.ts",
     "test": "deno test -A",
     "lint": "deno lint",
     "lint:fmt": "deno fmt --check",
     "set-hooks": "deno task run"
   },
   "githooks": {
-    "pre-commit": ["test && lint ; lint:fmt"]
+    "pre-commit": ["createSchema && test && lint ; lint:fmt"]
   }
 }

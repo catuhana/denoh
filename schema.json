@@ -1,0 +1,119 @@
+{
+  "$id": "https://deno.land/x/denoh/schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JSON schema for denoh.",
+  "description": "Extended Deno JSON schema for denoh to add automatic completion and error handling for hooks.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://deno.land/x/deno/cli/schemas/config-file.v1.json"
+    }
+  ],
+  "properties": {
+    "githooks": {
+      "$ref": "#/$defs/githooksProperties"
+    }
+  },
+  "$defs": {
+    "githooksProperties": {
+      "title": "Git hooks object.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "applypatch-msg": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-applypatch": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-applypatch": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-commit": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-merge-commit": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "prepare-commit-msg": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "commit-msg": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-commit": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-rebase": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-checkout": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-merge": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-push": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-receive": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "update": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "proc-receive": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-receive": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-update": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "reference-transaction": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "push-to-checkout": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "pre-auto-gc": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-rewrite": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "sendemail-validate": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "fsmonitor-watchman": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "p4-changelist": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "p4-prepare-changelist": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "p4-post-changelist": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "p4-pre-submit": {
+          "$ref": "#/$defs/hookProperties"
+        },
+        "post-index-change": {
+          "$ref": "#/$defs/hookProperties"
+        }
+      }
+    },
+    "hookProperties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "githooks"
+  ]
+}
