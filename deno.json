@@ -10,7 +10,7 @@
     "include": ["denoh.ts", "src/", "scripts/"]
   },
   "imports": {
-    "std/": "https://deno.land/std@0.198.0/"
+    "std/": "https://deno.land/std@0.199.0/"
   },
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
