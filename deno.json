@@ -15,7 +15,7 @@
   "tasks": {
     "run": "deno run --allow-read --allow-write denoh.ts",
     "createSchema": "deno run --allow-write scripts/generateJsonSchema.ts",
-    "test": "deno test -A",
+    "test": "deno test --allow-read",
     "lint": "deno lint",
     "lint:fmt": "deno fmt --check",
     "set-hooks": "deno task run"

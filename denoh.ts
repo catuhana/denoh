@@ -21,10 +21,10 @@ if (import.meta.main) {
     const configPath = args._[0] as string;
     const hooksPath = args.h;
 
-    const config = await readConfig(configPath).catch((err: DenohError) =>
+    const { gitHooks } = await readConfig(configPath).catch((err: DenohError) =>
       err.logAndExit()
     );
-    const hooks = createHooks(config);
+    const hooks = createHooks(gitHooks);
     const writtenHooks = await writeHooks(hooks, hooksPath, configPath).catch((
       err: DenohError,
     ) => err.logAndExit());

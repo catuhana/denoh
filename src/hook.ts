@@ -12,7 +12,7 @@ const operatorsRegex = new RegExp(
 );
 
 export const createHooks = (
-  config: Awaited<ReturnType<typeof readConfig>>,
+  gitHooks: Awaited<ReturnType<typeof readConfig>>['gitHooks'],
 ) => {
   const createdHooks: {
     name: string;
@@ -21,7 +21,7 @@ export const createHooks = (
 
   for (
     const [gitHookName, gitHookCommands] of Object.entries(
-      config.githooks,
+      gitHooks,
     ) as [GitHooks, string[]][]
   ) {
     if (!HOOKS.includes(gitHookName)) {
@@ -149,7 +149,7 @@ export const readConfig = async (configPath = '.') => {
       );
     }
 
-    return { githooks: parsedConfigFile.githooks };
+    return { gitHooks: parsedConfigFile.githooks };
   } catch {
     throw new DenohError('Could not found specified file.');
   }
