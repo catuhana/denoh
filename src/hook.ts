@@ -1,7 +1,7 @@
 import { parse as parseJsonc } from 'std/jsonc/parse.ts';
 
 import { ExitCodes, Operators } from './enums.ts';
-import { error, warn } from './logger.ts';
+import { warn } from './logger.ts';
 import { DenohError } from './error.ts';
 
 import { HOOKS } from './constants.ts';
