@@ -15,6 +15,6 @@ export enum ExitCodes {
  */
 export enum Operators {
   And = '&&',
-  Or = '||',
+  Or = '\\|\\|',
   Separator = ';',
 }
