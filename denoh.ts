@@ -4,8 +4,7 @@ import { createHooks, readConfig, writeHooks } from './src/hook.ts';
 import { DenohError } from './src/error.ts';
 import { info, warn } from './src/logger.ts';
 import { ExitCodes } from './src/enums.ts';
-
-const VERSION = '3.0.0';
+import { HELP_TEXT, VERSION } from './src/constants.ts';
 
 const listFormatter = new Intl.ListFormat('en', {
   style: 'long',
@@ -13,13 +12,15 @@ const listFormatter = new Intl.ListFormat('en', {
 });
 
 if (import.meta.main) {
-  const args = parseFlags(Deno.args);
+  const args = parseFlags(Deno.args, { alias: { h: ['help'] }, string: ['g'] });
 
   if (args.V) {
     console.log(`denoh v${VERSION}`);
+  } else if (args.h) {
+    console.log(HELP_TEXT);
   } else if (args._) {
     const configPath = args._[0] as string;
-    const hooksPath = args.h;
+    const hooksPath = args.g;
 
     const { gitHooks } = await readConfig(configPath).catch((err: DenohError) =>
       err.logAndExit()

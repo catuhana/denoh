@@ -62,11 +62,12 @@ export const writeHooks = async (
       {
         mode: 0o755,
       },
-    ).catch((err) =>
-      error(
+    ).catch((err) => {
+      throw new DenohError(
         `An error ocurred when creating ${hook.name} hook: ${err.message}`,
-      )
-    );
+        ExitCodes.UnknownError,
+      );
+    });
 
     createdGitHooks.push(hook.name);
   }
@@ -151,6 +152,6 @@ export const readConfig = async (configPath = '.') => {
 
     return { gitHooks: parsedConfigFile.githooks };
   } catch {
-    throw new DenohError('Could not found specified file.');
+    throw new DenohError('Could not found specified file or folder.');
   }
 };

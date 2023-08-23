@@ -31,3 +31,25 @@ export const HOOKS = [
   'p4-pre-submit',
   'post-index-change',
 ] as const;
+
+export const VERSION = '3.0.0';
+export const HELP_TEXT = `
+denoh - Generate Git hook by extending Deno's Configuration file.
+
+Usage:
+  denoh [config file or path, default: ./] [flags]
+
+Flags:
+  -h|--help => Shows this message
+  -V        => Shows current version of denoh
+  -g        => Where to generate Git hooks. [default: <config path>/.git/hooks]
+
+Examples:
+  denoh # Creates hooks in the current folder
+  denoh .. # Looks for hooks in specified (in this case, previous) folder, creates them there
+  denoh deno.jsonc # Scans specified file and creates hooks where the file is
+  denoh ../meow -g meow-hooks # Looks for hooks in previous meow folder, creates hooks to current \`meow-hooks\` folder
+
+Source Code:
+  https://github.com/tuhanayim/denoh
+`.trimEnd();
