@@ -12,7 +12,9 @@ You can install denoh globally by running `deno install https://deno.land/x/deno
 
 ## Usage
 
-Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.{json,jsonc}) if not exists. Denoh looks for `githooks` key of the configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside an array of strings. Let's say our Deno configuration file is this example below:
+Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.json{,c}) if it does not exist. Denoh looks for `githooks` key of the configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside an array of strings. Let's say our Deno configuration file is this example below:
+
+For auto completion in `githooks` field in Deno configuration file, [schema.json](schema.json) JSON schema file can be used, [as can be seen here](deno.json#L2). Denoh JSON schema extends Deno's latest JSON schema, so it's safe to use Denoh's schema, even after Deno changes theirs.
 
 ```jsonc
 {
@@ -36,7 +38,7 @@ Since Git hooks are set by extending Deno's configuration file, we need to creat
 }
 ```
 
-To generate Git hooks, run `denoh`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks with the following contents:
+To generate Git hooks, run `denoh`. This will create `pre-commit`, `post-commit` and `post-checkout` hooks in the current folder with the following contents:
 
 ```sh
 ## file -> .git/hooks/pre-commit
@@ -57,17 +59,19 @@ deno task lint ; deno task lint:fmt
 echo 'Tasks ran successfully.'
 ```
 
+For help and information about flags, please refer to [src/constants.ts](src/constants.ts#L36-L54), or run `denoh -h`.
+
 ### Running at different folder or configuration files
 
 You can pass folder name or configuration file name by passing its path as an argument. If the entered path is different, it will create Git hooks in the entered folder.
 
 ```sh
 ❯ denoh ../my-beautiful-project
-❯ denoh deno.dev.jsonc
+❯ denoh deno.dev.jsonc -g dev-hooks/
 ```
 
 ## Exit Codes
 
-| 0                        | 243                              | 244                                 | 245                                                | 246                                                      | 247              | 248                                   | 255            |
-| ------------------------ | -------------------------------- | ----------------------------------- | -------------------------------------------------- | -------------------------------------------------------- | ---------------- | ------------------------------------- | -------------- |
-| Script ran successfully. | Configuration file is not found. | Could not parse configuration file. | Configuration file does not have `githooks` field. | `githooks` value on configuration file is not an Object. | No hook created. | Entered path is not a Git repository. | Unknown error. |
+| 0                           | 1                          | 243                              | 244                                 | 245                                                | 246                                | 247                  | 248                                                                                                      | 249                                | 255                        |
+| --------------------------- | -------------------------- | -------------------------------- | ----------------------------------- | -------------------------------------------------- | ---------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------- | -------------------------- |
+| Hooks created successfully. | An unknown error occurred. | Configuration file is not found. | Could not parse configuration file. | `githooks` field is missing in configuration file. | `githooks` field is not an Object. | No Git hook created. | Current folder is not a Git repository. (To specify a folder to create hooks in, `-g` flag can be used.) | Entered file is not a config file. | An unknown error occurred. |

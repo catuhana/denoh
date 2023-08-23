@@ -1,12 +1,10 @@
 {
   "deno.enable": true,
+  "files.insertFinalNewline": true,
   "[javascript][typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[markdown][json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[dockerfile][properties][ignore]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
   }
 }

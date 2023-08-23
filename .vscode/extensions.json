@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "denoland.vscode-deno",
-    "esbenp.prettier-vscode",
-    "foxundermoon.shell-format"
-  ]
+  "recommendations": ["denoland.vscode-deno", "esbenp.prettier-vscode"]
 }
