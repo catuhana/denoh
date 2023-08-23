@@ -3,7 +3,7 @@ export enum ExitCodes {
   NotFound = 243,
   ParseError,
   NoGitHookFields,
-  GitHookFieldsNotObject,
+  GitHooksFieldIsNotObject,
   NoHookCreated,
   NotGitRepository,
   NotAConfigFile,

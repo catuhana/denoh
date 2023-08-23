@@ -146,7 +146,7 @@ export const readConfig = async (configPath = '.') => {
     ) {
       throw new DenohError(
         '`githooks` field must be an Object.',
-        ExitCodes.GitHookFieldsNotObject,
+        ExitCodes.GitHooksFieldIsNotObject,
       );
     }
 
