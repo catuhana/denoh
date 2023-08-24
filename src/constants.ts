@@ -35,7 +35,7 @@ export const HOOKS = [
 /**
  * Denoh version.
  */
-export const VERSION = '3.0.0';
+export const VERSION = '3.0.1';
 
 /**
  * Help text for denoh CLI.
