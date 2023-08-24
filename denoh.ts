@@ -1,4 +1,4 @@
-import { parse as parseFlags } from 'std/flags/mod.ts';
+import { parse as parseFlags } from 'https://deno.land/std@0.199.0/flags/mod.ts';
 
 import { createHooks, readConfig, writeHooks } from './src/hook.ts';
 import { DenohError } from './src/error.ts';
