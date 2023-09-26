@@ -6,9 +6,11 @@ A script for generating Git hooks by extending Deno's configuration file.
 
 You can install denoh globally by running `deno install https://deno.land/x/denoh/denoh.ts` command, or run by running `deno run https://deno.land/x/denoh/denoh.ts`.
 
-> **Note**: To run/install a specific version, you can add version specifier after `/x/denoh/` part of URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/x/denoh@v1.0.0/`.
+> [!NOTE]
+> To run/install a specific version, you can add version specifier after `/x/denoh/` part of URL with any valid tag. If you want to use version 1.0.0 for example, replace mentioned part with `/x/denoh@v1.0.0/`.
 
-> **Note**: Older versions of denoh can be found at its GitHub repository, and can be run/installed like above with only changing the URL to a raw source file.
+> [!NOTE]
+> Older versions of denoh can be found at its GitHub repository, and can be run/installed like above with only changing the URL to a raw source file.
 
 ## Usage
 
