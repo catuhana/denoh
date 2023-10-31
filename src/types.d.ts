@@ -1,6 +1,6 @@
 import { HOOKS } from './constants.ts';
 
-import type { JsonValue } from 'https://deno.land/std@0.199.0/jsonc/parse.ts';
+import type { JsonValue } from 'https://deno.land/std@0.204.0/jsonc/parse.ts';
 
 /**
  * Git hooks as an union type.
