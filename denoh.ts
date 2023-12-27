@@ -1,4 +1,4 @@
-import { parse as parseFlags } from 'https://deno.land/std@0.204.0/flags/mod.ts';
+import { parseArgs } from 'https://deno.land/std@0.210.0/cli/parse_args.ts';
 
 import { createHooks, readConfig, writeHooks } from './src/hook.ts';
 import { DenohError } from './src/error.ts';
@@ -12,7 +12,7 @@ const listFormatter = new Intl.ListFormat('en', {
 });
 
 if (import.meta.main) {
-  const args = parseFlags(Deno.args, { alias: { h: ['help'] }, string: ['g'] });
+  const args = parseArgs(Deno.args, { alias: { h: ['help'] }, string: ['g'] });
 
   if (args.V) {
     console.log(`denoh v${VERSION}`);
