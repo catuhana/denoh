@@ -57,7 +57,9 @@ const schema: Schema = {
           hook,
         ) => [hook, {
           $ref: '#/$defs/hookProperties',
-          description: `https://git-scm.com/docs/githooks#_${hook}`,
+          description: `https://git-scm.com/docs/githooks#_${
+            hook.replaceAll('-', '_')
+          }`,
         }]),
       ) as Record<
         GitHooks,
