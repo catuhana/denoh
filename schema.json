@@ -16,93 +16,121 @@
   },
   "$defs": {
     "githooksProperties": {
-      "title": "Git hooks object.",
+      "title": "Git hooks object. Check https://git-scm.com/docs/githooks for information about Git hooks.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "applypatch-msg": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_applypatch-msg"
         },
         "pre-applypatch": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-applypatch"
         },
         "post-applypatch": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-applypatch"
         },
         "pre-commit": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-commit"
         },
         "pre-merge-commit": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-merge-commit"
         },
         "prepare-commit-msg": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_prepare-commit-msg"
         },
         "commit-msg": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_commit-msg"
         },
         "post-commit": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-commit"
         },
         "pre-rebase": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-rebase"
         },
         "post-checkout": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-checkout"
         },
         "post-merge": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-merge"
         },
         "pre-push": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-push"
         },
         "pre-receive": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-receive"
         },
         "update": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_update"
         },
         "proc-receive": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_proc-receive"
         },
         "post-receive": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-receive"
         },
         "post-update": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-update"
         },
         "reference-transaction": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_reference-transaction"
         },
         "push-to-checkout": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_push-to-checkout"
         },
         "pre-auto-gc": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_pre-auto-gc"
         },
         "post-rewrite": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-rewrite"
         },
         "sendemail-validate": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_sendemail-validate"
         },
         "fsmonitor-watchman": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_fsmonitor-watchman"
         },
         "p4-changelist": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_p4-changelist"
         },
         "p4-prepare-changelist": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_p4-prepare-changelist"
         },
         "p4-post-changelist": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_p4-post-changelist"
         },
         "p4-pre-submit": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_p4-pre-submit"
         },
         "post-index-change": {
-          "$ref": "#/$defs/hookProperties"
+          "$ref": "#/$defs/hookProperties",
+          "description": "https://git-scm.com/docs/githooks#_post-index-change"
         }
       }
     },

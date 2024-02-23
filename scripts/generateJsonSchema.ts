@@ -48,12 +48,21 @@ const schema: Schema = {
   },
   $defs: {
     githooksProperties: {
-      title: 'Git hooks object.',
+      title:
+        'Git hooks object. Check https://git-scm.com/docs/githooks for information about Git hooks.',
       type: 'object',
       additionalProperties: false,
       properties: Object.fromEntries(
-        HOOKS.map((hook) => [hook, { $ref: '#/$defs/hookProperties' }]),
-      ) as Record<GitHooks, { $ref: '#/$defs/hookProperties' }>,
+        HOOKS.map((
+          hook,
+        ) => [hook, {
+          $ref: '#/$defs/hookProperties',
+          description: `https://git-scm.com/docs/githooks#_${hook}`,
+        }]),
+      ) as Record<
+        GitHooks,
+        { $ref: '#/$defs/hookProperties'; description: string }
+      >,
     },
     hookProperties: {
       type: 'array',
