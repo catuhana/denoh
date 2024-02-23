@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --allow-read --allow-write
+
 import { parseArgs } from 'https://deno.land/std@0.217.0/cli/parse_args.ts';
 
 import { createHooks, readConfig, writeHooks } from './src/hook.ts';
