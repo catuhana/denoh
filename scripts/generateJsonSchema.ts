@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-write
 
 import { HOOKS } from '../src/constants.ts';
-import { GitHooks } from '../src/types.d.ts';
+import { GitHooks } from '../src/types.ts';
 
 interface Schema {
   $id: string;

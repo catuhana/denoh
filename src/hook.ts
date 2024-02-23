@@ -5,7 +5,7 @@ import { warn } from './logger.ts';
 import { DenohError } from './error.ts';
 
 import { HOOKS } from './constants.ts';
-import { DenoConfig, GitHooks } from './types.d.ts';
+import { DenoConfig, GitHooks } from './types.ts';
 
 const operatorsRegex = new RegExp(
   `^(${Object.values(Operators).join('|')})$`,
@@ -100,8 +100,8 @@ export const generateGitHookScript = (commands: string[]) => {
     } else if (command.startsWith('$')) {
       script.push(command.slice(1));
     } else {
-      const block = command.split(' ').map((w) =>
-        operatorsRegex.test(w) ? w : `deno task ${w}`
+      const block = command.split(' ').map((operator) =>
+        operatorsRegex.test(operator) ? operator : `deno task ${operator}`
       );
 
       script.push(block.join(' '));
@@ -133,7 +133,7 @@ export const readConfig = async (configPath = '.') => {
         }
       }
 
-      if (!configFile.length) {
+      if (!configFile) {
         throw new DenohError(
           `Deno configuration file not found in \`${configPath}\` folder.`,
         );
