@@ -1,5 +1,5 @@
-import { assertEquals } from 'https://deno.land/std@0.210.0/assert/assert_equals.ts';
-import { assertExists } from 'https://deno.land/std@0.210.0/assert/assert_exists.ts';
+import { assertEquals } from 'https://deno.land/std@0.217.0/assert/assert_equals.ts';
+import { assertExists } from 'https://deno.land/std@0.217.0/assert/assert_exists.ts';
 
 import type { GitHooks } from './types.d.ts';
 

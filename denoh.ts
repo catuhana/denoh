@@ -1,4 +1,4 @@
-import { parseArgs } from 'https://deno.land/std@0.210.0/cli/parse_args.ts';
+import { parseArgs } from 'https://deno.land/std@0.217.0/cli/parse_args.ts';
 
 import { createHooks, readConfig, writeHooks } from './src/hook.ts';
 import { DenohError } from './src/error.ts';
