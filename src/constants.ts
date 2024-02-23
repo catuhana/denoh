@@ -58,5 +58,4 @@ Examples:
   denoh ../meow -g meow-hooks # Looks for hooks in previous meow folder, creates hooks to current \`meow-hooks\` folder
 
 Source Code:
-  https://github.com/catuhana/denoh
-`.trimEnd();
+  https://github.com/catuhana/denoh`;

@@ -96,8 +96,12 @@ export const generateGitHookScript = (commands: string[]) => {
   const script = ['#!/bin/sh'];
 
   for (const command of commands) {
-    // TODO: deprecate exclamation mark
     if (command.startsWith('!')) {
+      warn(
+        'Using `!` operator is deprecated and it will be removed soon. Please use `$` instead.',
+      );
+      script.push(command.slice(1));
+    } else if (command.startsWith('$')) {
       script.push(command.slice(1));
     } else {
       const block = command.split(' ').map((w) =>

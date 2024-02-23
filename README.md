@@ -16,7 +16,8 @@ You can install denoh globally by running `deno install https://deno.land/x/deno
 
 Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.json{,c}) if it does not exist. Denoh looks for `githooks` key of the configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside an array of strings. Let's say our Deno configuration file is this example below:
 
-For auto completion in `githooks` field in Deno configuration file, [schema.json](schema.json) JSON schema file can be used, [as can be seen here](deno.json#L2). Denoh JSON schema extends Deno's latest JSON schema, so it's safe to use Denoh's schema, even after Deno changes theirs.
+> [!TIP]
+> For auto completion in `githooks` field in Deno configuration file, [schema.json](schema.json) JSON schema file can be used, [as can be seen here](deno.json#L2). Denoh's JSON schema extends Deno's one, so it's safe to use, even after Deno changes theirs.
 
 ```jsonc
 {
@@ -28,13 +29,13 @@ For auto completion in `githooks` field in Deno configuration file, [schema.json
   "githooks": {
     // You can pass a Deno task by writing the exact name of it:
     "pre-commit": ["lint"],
-    // Or you can pass any shell command with an exclamation point (!) at the beginning of the string:
-    "post-commit": ["!echo 'Added commit'"],
+    // Or you can pass any shell command with a dollar sign ($) at the start of the string:
+    "post-commit": ["$echo 'Added commit'"],
     // And you can mix them together:
     "post-checkout": [
-      "!echo 'Changed branch, running lint tasks...'",
+      "$echo 'Changed branch, running lint tasks...'",
       "lint ; lint:fmt", // denoh supports logical AND, OR and command separators
-      "!echo 'Tasks ran successfully.'"
+      "$echo 'Tasks ran successfully.'"
     ]
   }
 }
@@ -61,9 +62,9 @@ deno task lint ; deno task lint:fmt
 echo 'Tasks ran successfully.'
 ```
 
-For help and information about flags, please refer to [src/constants.ts](src/constants.ts#L36-L54), or run `denoh -h`.
+For help and information about flags, please refer to [src/constants.ts](src/constants.ts#L43-L61), or run `denoh -h`.
 
-### Running at different folder or configuration files
+### Running at Different Folder or Configuration Files
 
 You can pass folder name or configuration file name by passing its path as an argument. If the entered path is different, it will create Git hooks in the entered folder.
 
