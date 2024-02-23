@@ -62,9 +62,9 @@ export const writeHooks = async (
   hooksPath = '.git/hooks',
   configPath = '.',
 ) => {
-  const createdGitHooks = [];
+  const createdGitHooks: string[] = [];
 
-  for (const hook of hooks) {
+  await Promise.all(hooks.map(async (hook) => {
     await Deno.writeTextFile(
       `${configPath}/${hooksPath}/${hook.name}`,
       hook.script,
@@ -73,13 +73,18 @@ export const writeHooks = async (
       },
     ).catch((err) => {
       throw new DenohError(
-        `An error occurred while creating ${hook.name} hook: ${err.message}`,
+        `An error occurred while writing ${hook.name} hook: ${err.message}`,
         ExitCodes.UnknownError,
       );
     });
 
     createdGitHooks.push(hook.name);
-  }
+  })).catch((err) => {
+    throw new DenohError(
+      `An error occurred while writing hooks: ${err.message}`,
+      ExitCodes.UnknownError,
+    );
+  });
 
   return createdGitHooks;
 };
