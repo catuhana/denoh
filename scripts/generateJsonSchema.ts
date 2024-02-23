@@ -51,10 +51,9 @@ const schema: Schema = {
       title: 'Git hooks object.',
       type: 'object',
       additionalProperties: false,
-      properties: {} as Record<
-        GitHooks,
-        { $ref: '#/$defs/hookProperties' }
-      >,
+      properties: Object.fromEntries(
+        HOOKS.map((hook) => [hook, { $ref: '#/$defs/hookProperties' }]),
+      ) as Record<GitHooks, { $ref: '#/$defs/hookProperties' }>,
     },
     hookProperties: {
       type: 'array',
@@ -64,12 +63,6 @@ const schema: Schema = {
   required: ['githooks'],
 };
 
-for (const hook of HOOKS) {
-  schema.$defs.githooksProperties.properties[hook] = {
-    $ref: '#/$defs/hookProperties',
-  };
-}
-
 await Deno.writeTextFile('schema.json', JSON.stringify(schema, null, 2));
 
-console.info('Created JSON schema.');
+console.info('%cCreated JSON schema.', 'color: green');
