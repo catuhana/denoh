@@ -7,8 +7,8 @@ on:
       - main
     paths:
       - .github/workflows/ci.yaml
-      - scripts/**/*
-      - src/**/*
+      - scripts/**
+      - src/**
       - deno.{json,lock}
       - denoh.ts
   pull_request:
@@ -16,8 +16,8 @@ on:
       - main
     paths:
       - .github/workflows/ci.yaml
-      - scripts/**/*
-      - src/**/*
+      - scripts/**
+      - src/**
       - deno.{json,lock}
       - denoh.ts
   workflow_dispatch:
