@@ -16,14 +16,14 @@ Deno.test('Create Git Hook Scripts', async () => {
     '#!/bin/sh\ndeno task fmt || deno task lint ; deno task test',
   );
   assertEquals(
-    generateGitHookScript(['!git rev-parse HEAD >rev', 'doSomethingWithRev']),
+    generateGitHookScript(['$git rev-parse HEAD >rev', 'doSomethingWithRev']),
     '#!/bin/sh\ngit rev-parse HEAD >rev\ndeno task doSomethingWithRev',
   );
   assertEquals(
     generateGitHookScript([
-      '!echo "Changed branch, clearing cache..."',
+      '$echo "Changed branch, clearing cache..."',
       'clearCache',
-      '!echo "Cache cleared successfully."',
+      '$echo "Cache cleared successfully."',
     ]),
     '#!/bin/sh\necho "Changed branch, clearing cache..."\ndeno task clearCache\necho "Cache cleared successfully."',
   );
@@ -39,7 +39,7 @@ Deno.test('Create Hooks', async () => {
   const { createHooks, generateGitHookScript } = await import('./hook.ts');
 
   const validGitHook = {
-    'post-commit': ['!echo "Running post-commit hooks..."', 'runStuff'],
+    'post-commit': ['$echo "Running post-commit hooks..."', 'runStuff'],
   } as Record<GitHooks, string[]>;
   const invalidGitHookName = { 'meow': ['meow', ':3'] };
   const invalidGitHookValue = { 'commit-msg': [6, 9] };
