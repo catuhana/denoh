@@ -6,11 +6,6 @@ import { info, warn } from './src/logger.ts';
 import { ExitCodes } from './src/enums.ts';
 import { HELP_TEXT, VERSION } from './src/constants.ts';
 
-const listFormatter = new Intl.ListFormat('en', {
-  style: 'long',
-  type: 'conjunction',
-});
-
 if (import.meta.main) {
   const args = parseArgs(Deno.args, { alias: { h: ['help'] }, string: ['g'] });
 
@@ -31,6 +26,11 @@ if (import.meta.main) {
     ) => err.logAndExit());
 
     if (writtenHooks.length) {
+      const listFormatter = new Intl.ListFormat('en', {
+        style: 'long',
+        type: 'conjunction',
+      });
+
       info(
         `Created \`${listFormatter.format(writtenHooks)}\` ${
           writtenHooks.length > 1 ? 'hooks' : 'hook'
