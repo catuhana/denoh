@@ -32,12 +32,8 @@ export const createHooks = (
     if (!HOOKS.includes(gitHookName)) {
       warn(`\`${gitHookName}\` Git hook does not exist. Skipping...`);
       continue;
-    } else if (!Array.isArray(gitHookCommands)) {
-      warn(
-        `\`${gitHookName}\` Git hook's value is not an array of strings. Skipping...`,
-      );
-      continue;
     } else if (
+      !Array.isArray(gitHookCommands) ||
       !gitHookCommands.every((command) => typeof command === 'string')
     ) {
       warn(
