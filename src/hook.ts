@@ -179,7 +179,14 @@ export const readConfig = async (configPath = '.') => {
     }
 
     return { gitHooks: parsedConfigFile.githooks };
-  } catch {
-    throw new DenohError('Could not found specified file or folder.');
+  } catch (err) {
+    if (err instanceof DenohError) {
+      throw err;
+    }
+
+    throw new DenohError(
+      `An unexpected error occurred while reading the config file: ${err.message}`,
+      ExitCodes.UnknownError,
+    );
   }
 };
