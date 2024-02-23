@@ -3,6 +3,7 @@
 A script for generating Git hooks by extending Deno's configuration file.
 
 [![Built with the Deno Standard Library](https://raw.githubusercontent.com/denoland/deno_std/main/badge.svg)](https://deno.land/std)
+[![CI](https://github.com/catuhana/denoh/actions/workflows/ci.yaml/badge.svg)](https://github.com/catuhana/denoh/actions/workflows/ci.yaml)
 
 ## Installation or Running
 
