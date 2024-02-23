@@ -33,7 +33,9 @@ export const createHooks = (
       warn(`\`${gitHookName}\` Git hook does not exist. Skipping...`);
       continue;
     } else if (!Array.isArray(gitHookCommands)) {
-      warn(`\`${gitHookName}\` Git hook's value is not an array. Skipping...`);
+      warn(
+        `\`${gitHookName}\` Git hook's value is not an array of strings. Skipping...`,
+      );
       continue;
     } else if (
       !gitHookCommands.every((command) => typeof command === 'string')
@@ -75,7 +77,7 @@ export const writeHooks = async (
       },
     ).catch((err) => {
       throw new DenohError(
-        `An error ocurred when creating ${hook.name} hook: ${err.message}`,
+        `An error occurred while creating ${hook.name} hook: ${err.message}`,
         ExitCodes.UnknownError,
       );
     });
@@ -94,6 +96,7 @@ export const generateGitHookScript = (commands: string[]) => {
   const script = ['#!/bin/sh'];
 
   for (const command of commands) {
+    // TODO: deprecate exclamation mark
     if (command.startsWith('!')) {
       script.push(command.slice(1));
     } else {

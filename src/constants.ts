@@ -41,15 +41,15 @@ export const VERSION = '3.1.0';
  * Help text for denoh CLI.
  */
 export const HELP_TEXT = `
-denoh - Generate Git hook by extending Deno's Configuration file.
+denoh - Generate Git hooks by extending Deno's configuration file.
 
 Usage:
   denoh [config file or path, default: ./] [flags]
 
 Flags:
+  -g        => Where to generate Git hooks. [default: <config path>/.git/hooks]
   -h|--help => Shows this message
   -V        => Shows current version of denoh
-  -g        => Where to generate Git hooks. [default: <config path>/.git/hooks]
 
 Examples:
   denoh # Creates hooks in the current folder
