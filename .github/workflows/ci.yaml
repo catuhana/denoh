@@ -1,0 +1,50 @@
+name: CI
+run-name: ${{ inputs.reason }}
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci.yaml
+      - scripts/**/*
+      - src/**/*
+      - deno.{json,lock}
+      - denoh.ts
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci.yaml
+      - scripts/**/*
+      - src/**/*
+      - deno.{json,lock}
+      - denoh.ts
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: Dispatch reason
+        type: string
+        required: true
+
+jobs:
+  ci:
+    name: Run CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set-up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+
+      - name: Check format
+        run: deno fmt --check
+
+      - name: Check lint
+        run: deno lint
+
+      - name: Run tests
+        run: deno test
