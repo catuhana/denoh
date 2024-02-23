@@ -41,10 +41,10 @@ jobs:
           deno-version: 1.x
 
       - name: Check format
-        run: deno fmt --check
+        run: deno task lint:fmt
 
       - name: Check lint
-        run: deno lint
+        run: deno task lint
 
       - name: Run tests
         run: deno task test
