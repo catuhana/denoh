@@ -1,5 +1,4 @@
-import { assertEquals } from 'https://deno.land/std@0.217.0/assert/assert_equals.ts';
-import { assertExists } from 'https://deno.land/std@0.217.0/assert/assert_exists.ts';
+import { assertEquals, assertExists } from 'jsr:@std/assert';
 
 import type { GitHooks } from './types.ts';
 

@@ -1,4 +1,4 @@
-import { parse as parseJsonc } from 'https://deno.land/std@0.217.0/jsonc/parse.ts';
+import { parse as parseJsonc } from 'jsr:@std/jsonc';
 
 import { ExitCodes, Operators } from './enums.ts';
 import { warn } from './logger.ts';
