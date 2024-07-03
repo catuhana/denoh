@@ -1,6 +1,6 @@
 import { HOOKS } from './constants.ts';
 
-import type { JsonValue } from 'jsr:@std/jsonc';
+import type { JsonValue } from '@std/jsonc';
 
 /**
  * Git hooks as an union type.

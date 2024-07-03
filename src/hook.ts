@@ -1,4 +1,4 @@
-import { parse as parseJsonc } from 'jsr:@std/jsonc';
+import { parse as parseJsonc } from '@std/jsonc';
 
 import { ExitCodes, Operators } from './enums.ts';
 import { warn } from './logger.ts';

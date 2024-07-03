@@ -2,40 +2,42 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@std/assert": "jsr:@std/assert@0.218.2",
-      "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
-      "jsr:@std/cli": "jsr:@std/cli@0.218.2",
-      "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
-      "jsr:@std/json@^0.218.2": "jsr:@std/json@0.218.2",
-      "jsr:@std/jsonc": "jsr:@std/jsonc@0.218.2"
+      "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
+      "jsr:@std/cli": "jsr:@std/cli@0.224.7",
+      "jsr:@std/internal@^1.0.0": "jsr:@std/internal@1.0.1",
+      "jsr:@std/json@^1.0.0-rc.1": "jsr:@std/json@1.0.0-rc.2",
+      "jsr:@std/jsonc": "jsr:@std/jsonc@0.224.3",
+      "jsr:@std/jsonc@^0.224.3": "jsr:@std/jsonc@0.224.3"
     },
     "jsr": {
-      "@std/assert@0.218.2": {
-        "integrity": "7f0a5a1a8cf86607cd6c2c030584096e1ffad27fc9271429a8cb48cfbdee5eaf",
+      "@std/assert@0.226.0": {
+        "integrity": "0dfb5f7c7723c18cec118e080fec76ce15b4c31154b15ad2bd74822603ef75b3",
         "dependencies": [
-          "jsr:@std/fmt@^0.218.2"
+          "jsr:@std/internal@^1.0.0"
         ]
       },
-      "@std/cli@0.218.2": {
-        "integrity": "7877f41b4369f51b2ee06132b678ceee703051671c0fcea9058c1c0242652098",
+      "@std/cli@0.224.7": {
+        "integrity": "654ca6477518e5e3a0d3fabafb2789e92b8c0febf1a1d24ba4b567aba94b5977"
+      },
+      "@std/internal@1.0.1": {
+        "integrity": "6f8c7544d06a11dd256c8d6ba54b11ed870aac6c5aeafff499892662c57673e6"
+      },
+      "@std/json@1.0.0-rc.2": {
+        "integrity": "f48870c4471e5ff3157ca4c51bf9a71351c2bac2ba2e1615321254b4d081e84a"
+      },
+      "@std/jsonc@0.224.3": {
+        "integrity": "c10770a31489f5b85a3562d9b107c497666d8b6a49291ee2711d84da2616c2d6",
         "dependencies": [
-          "jsr:@std/assert@^0.218.2"
-        ]
-      },
-      "@std/fmt@0.218.2": {
-        "integrity": "99526449d2505aa758b6cbef81e7dd471d8b28ec0dcb1491d122b284c548788a"
-      },
-      "@std/json@0.218.2": {
-        "integrity": "2cdb9d0e86fed2c0623053f705c9004343e0b66fdfbc7b78d5941f12ca1a3a2f"
-      },
-      "@std/jsonc@0.218.2": {
-        "integrity": "989ef5044d33efb48579ecd742c8178c32a06dd0749abf86fc852d36322963cc",
-        "dependencies": [
-          "jsr:@std/assert@^0.218.2",
-          "jsr:@std/json@^0.218.2"
+          "jsr:@std/json@^1.0.0-rc.1"
         ]
       }
     }
   },
-  "remote": {}
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@^0.226.0",
+      "jsr:@std/jsonc@^0.224.3"
+    ]
+  }
 }
