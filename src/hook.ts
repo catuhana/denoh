@@ -2,10 +2,10 @@ import { parse as parseJsonc } from '@std/jsonc';
 
 import { ExitCodes, Operators } from './enums.ts';
 import { warn } from './logger.ts';
+import { HOOKS } from './constants.ts';
 import { DenohError } from './error.ts';
 
-import { HOOKS } from './constants.ts';
-import { DenoConfig, GitHooks } from './types.ts';
+import type { DenoConfig, GitHooks } from './types.ts';
 
 const operatorsRegex = new RegExp(
   `^(${Object.values(Operators).join('|')})$`,

@@ -1,39 +1,10 @@
 #!/usr/bin/env -S deno run --allow-write
 
 import { HOOKS } from '../src/constants.ts';
-import { GitHooks } from '../src/types.ts';
 
-interface Schema {
-  $id: string;
-  $schema: 'https://json-schema.org/draft/2020-12/schema';
-  title: string;
-  description: string;
-  type: 'object';
-  allOf: [
-    { $ref: 'https://deno.land/x/deno/cli/schemas/config-file.v1.json' },
-  ];
-  properties: {
-    githooks: { $ref: '#/$defs/githooksProperties' };
-  };
-  $defs: {
-    githooksProperties: {
-      title: string;
-      type: 'object';
-      additionalProperties: false;
-      properties: Record<
-        GitHooks,
-        { $ref: '#/$defs/hookProperties' }
-      >;
-    };
-    hookProperties: {
-      type: 'array';
-      items: { type: 'string' };
-    };
-  };
-  required: ['githooks'];
-}
+import type { GitHooks } from '../src/types.ts';
 
-const schema: Schema = {
+const schema = {
   $id: 'https://deno.land/x/denoh/schema.json',
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   title: 'JSON schema for denoh.',
