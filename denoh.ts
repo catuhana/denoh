@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
 
-import { parseArgs } from 'jsr:@std/cli';
+import { parseArgs } from '@std/cli';
 
 import { createHooks, readConfig, writeHooks } from './src/hook.ts';
 import { DenohError } from './src/error.ts';

@@ -2,33 +2,32 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
-      "jsr:@std/cli": "jsr:@std/cli@0.224.7",
-      "jsr:@std/internal@^1.0.0": "jsr:@std/internal@1.0.1",
-      "jsr:@std/json@^1.0.0-rc.1": "jsr:@std/json@1.0.0-rc.2",
-      "jsr:@std/jsonc": "jsr:@std/jsonc@0.224.3",
-      "jsr:@std/jsonc@^0.224.3": "jsr:@std/jsonc@0.224.3"
+      "jsr:@std/assert@^1.0.2": "jsr:@std/assert@1.0.2",
+      "jsr:@std/cli@^1.0.3": "jsr:@std/cli@1.0.3",
+      "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1",
+      "jsr:@std/json@^1.0.0": "jsr:@std/json@1.0.0",
+      "jsr:@std/jsonc@^1.0.0": "jsr:@std/jsonc@1.0.0"
     },
     "jsr": {
-      "@std/assert@0.226.0": {
-        "integrity": "0dfb5f7c7723c18cec118e080fec76ce15b4c31154b15ad2bd74822603ef75b3",
+      "@std/assert@1.0.2": {
+        "integrity": "ccacec332958126deaceb5c63ff8b4eaf9f5ed0eac9feccf124110435e59e49c",
         "dependencies": [
-          "jsr:@std/internal@^1.0.0"
+          "jsr:@std/internal@^1.0.1"
         ]
       },
-      "@std/cli@0.224.7": {
-        "integrity": "654ca6477518e5e3a0d3fabafb2789e92b8c0febf1a1d24ba4b567aba94b5977"
+      "@std/cli@1.0.3": {
+        "integrity": "9a0488b5d2e58d29dce106a941eecec7181fae996bf0d2225563f1ca7e4b100c"
       },
       "@std/internal@1.0.1": {
         "integrity": "6f8c7544d06a11dd256c8d6ba54b11ed870aac6c5aeafff499892662c57673e6"
       },
-      "@std/json@1.0.0-rc.2": {
-        "integrity": "f48870c4471e5ff3157ca4c51bf9a71351c2bac2ba2e1615321254b4d081e84a"
+      "@std/json@1.0.0": {
+        "integrity": "985c1e544918d42e4e84072fc739ac4a19c3a5093292c99742ffcdd03fb6a268"
       },
-      "@std/jsonc@0.224.3": {
-        "integrity": "c10770a31489f5b85a3562d9b107c497666d8b6a49291ee2711d84da2616c2d6",
+      "@std/jsonc@1.0.0": {
+        "integrity": "835da212e586f3ef94ab25e8f0e8a7711a86fddbee95ad40c34d6b3d74da1a1b",
         "dependencies": [
-          "jsr:@std/json@^1.0.0-rc.1"
+          "jsr:@std/json@^1.0.0"
         ]
       }
     }
@@ -36,8 +35,9 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@^0.226.0",
-      "jsr:@std/jsonc@^0.224.3"
+      "jsr:@std/assert@^1.0.2",
+      "jsr:@std/cli@^1.0.3",
+      "jsr:@std/jsonc@^1.0.0"
     ]
   }
 }
