@@ -12,7 +12,11 @@ const schema = {
     'Extended Deno JSON schema for denoh to add automatic completion and error handling for hooks.',
   type: 'object',
   allOf: [
-    { $ref: 'https://deno.land/x/deno/cli/schemas/config-file.v1.json' },
+    {
+      $ref:
+        // TODO: Maybe create a CI action to update this automatically?
+        'https://github.com/denoland/deno/raw/v1.45.5/cli/schemas/config-file.v1.json',
+    },
   ],
   properties: {
     githooks: { '$ref': '#/$defs/githooksProperties' },

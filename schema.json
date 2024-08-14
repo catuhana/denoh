@@ -141,7 +141,5 @@
       }
     }
   },
-  "required": [
-    "githooks"
-  ]
+  "required": ["githooks"]
 }
