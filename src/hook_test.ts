@@ -1,4 +1,4 @@
-import { assertEquals, assertExists } from '@std/assert';
+import { assertEquals, assertExists } from 'jsr:@std/assert';
 
 import type { GitHooks } from './types.ts';
 

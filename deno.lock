@@ -2,11 +2,11 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@std/assert@^1.0.2": "jsr:@std/assert@1.0.2",
-      "jsr:@std/cli@^1.0.3": "jsr:@std/cli@1.0.3",
+      "jsr:@std/assert": "jsr:@std/assert@1.0.2",
+      "jsr:@std/cli": "jsr:@std/cli@1.0.3",
       "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1",
       "jsr:@std/json@^1.0.0": "jsr:@std/json@1.0.0",
-      "jsr:@std/jsonc@^1.0.0": "jsr:@std/jsonc@1.0.0"
+      "jsr:@std/jsonc": "jsr:@std/jsonc@1.0.0"
     },
     "jsr": {
       "@std/assert@1.0.2": {
@@ -32,12 +32,5 @@
       }
     }
   },
-  "remote": {},
-  "workspace": {
-    "dependencies": [
-      "jsr:@std/assert@^1.0.2",
-      "jsr:@std/cli@^1.0.3",
-      "jsr:@std/jsonc@^1.0.0"
-    ]
-  }
+  "remote": {}
 }
