@@ -1,0 +1,53 @@
+name: Update denoh JSON Schema
+run-name: ${{ inputs.reason }}
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: Dispatch reason
+        type: string
+        required: true
+
+jobs:
+  update-json-schema:
+    name: Update denoh JSON Schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: latest
+
+      - name: Check Deno version on the schema file
+        id: schema-deno-version
+        run: |
+          script_content=$(cat schema.json)
+
+          if [[ $script_content =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            matched_version="${BASH_REMATCH[1]}"
+          else
+            echo "::error::Could not find Deno version in the schema.json file"
+          fi
+
+          echo "result=${matched_version}" >>"$GITHUB_OUTPUT"
+
+      - name: Check latest Deno version
+        id: latest-deno-version
+        run: |
+          deno_version=$(curl -s https://api.github.com/repos/denoland/deno/releases/latest | jq -r '.tag_name')
+          echo "result=${deno_version/v}" >>"$GITHUB_OUTPUT"
+
+      - name: Generate a new schema file if Deno version is outdated and commit changes
+        if: ${{ steps.schema-deno-version.outputs.result != steps.latest-deno-version.outputs.result }}
+        run: |
+          deno task createSchema v${{ steps.latest-deno-version.outputs.result }}
+
+          git add schema.json
+          git commit --author "github-actions[bot] <github-actions[bot]@users.noreply.github.com>" -m "Bump the schema Deno version to ${{ steps.latest-deno-version.outputs.result }}"
+          git push origin main

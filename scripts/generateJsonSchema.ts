@@ -4,6 +4,40 @@ import { HOOKS } from '../src/constants.ts';
 
 import type { GitHooks } from '../src/types.ts';
 
+let SCHEMA_FILE_RAW_URL =
+  'https://github.com/denoland/deno/raw/{DENO_VERSION}/cli/schemas/config-file.v1.json';
+
+const denoVersionInput = Deno.args[0];
+if (denoVersionInput) {
+  SCHEMA_FILE_RAW_URL = SCHEMA_FILE_RAW_URL.replace(
+    '{DENO_VERSION}',
+    denoVersionInput,
+  );
+
+  const response = await fetch(SCHEMA_FILE_RAW_URL);
+  if (!response.ok) {
+    console.error(
+      `Could not fetch the schema file. Possibly wrong version (${denoVersionInput}) entered.`,
+    );
+    Deno.exit(1);
+  }
+} else {
+  const response = await fetch(
+    'https://api.github.com/repos/denoland/deno/releases/latest',
+  );
+
+  if (!response.ok) {
+    console.error('Could not fetch the latest version of Deno.');
+    Deno.exit(1);
+  }
+
+  const latest_version = (await response.json()).tag_name;
+  SCHEMA_FILE_RAW_URL = SCHEMA_FILE_RAW_URL.replace(
+    '{DENO_VERSION}',
+    latest_version,
+  );
+}
+
 const schema = {
   $id: 'https://deno.land/x/denoh/schema.json',
   $schema: 'https://json-schema.org/draft/2020-12/schema',
@@ -13,9 +47,7 @@ const schema = {
   type: 'object',
   allOf: [
     {
-      $ref:
-        // TODO: Maybe create a CI action to update this automatically?
-        'https://github.com/denoland/deno/raw/v1.45.5/cli/schemas/config-file.v1.json',
+      $ref: SCHEMA_FILE_RAW_URL,
     },
   ],
   properties: {
