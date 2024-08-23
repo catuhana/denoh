@@ -46,8 +46,11 @@ jobs:
       - name: Generate a new schema file if Deno version is outdated and commit changes
         if: ${{ steps.schema-deno-version.outputs.result != steps.latest-deno-version.outputs.result }}
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
           deno task createSchema v${{ steps.latest-deno-version.outputs.result }}
 
           git add schema.json
-          git commit --author "github-actions[bot] <github-actions[bot]@users.noreply.github.com>" -m "Bump the schema Deno version to ${{ steps.latest-deno-version.outputs.result }}"
+          git commit -m "Bump the schema Deno version to ${{ steps.latest-deno-version.outputs.result }}"
           git push origin main
