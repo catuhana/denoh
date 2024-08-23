@@ -1,5 +1,5 @@
 {
-  "$schema": "https://deno.land/x/denoh/schema.json",
+  "$schema": "https://github.com/catuhana/denoh/raw/main/schema.json",
   "fmt": {
     "indentWidth": 2,
     "semiColons": true,

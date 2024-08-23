@@ -20,7 +20,7 @@ You can install denoh globally by running `deno install https://deno.land/x/deno
 Since Git hooks are set by extending Deno's configuration file, we need to create a Deno config file (Deno.json{,c}) if it does not exist. Denoh looks for `githooks` key of the configuration file, so to create a Git hook, pass any valid Git hook name to `githooks` object, and pass your script/task commands inside an array of strings. Let's say our Deno configuration file is this example below:
 
 > [!TIP]
-> For auto completion in `githooks` field in Deno configuration file, [schema.json](schema.json) JSON schema file can be used, [as can be seen here](deno.json#L2). Denoh's JSON schema extends Deno's one, so it's safe to use, even after Deno changes theirs.
+> For auto completion in `githooks` field in Deno configuration file, [schema.json](schema.json) JSON schema file can be used, [as can be seen here](deno.json#L2). Denoh's JSON schema extends from Deno's, so it's safe to use, even after their schema has updated.
 
 ```jsonc
 {
