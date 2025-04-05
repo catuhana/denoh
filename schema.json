@@ -6,7 +6,7 @@
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://github.com/denoland/deno/raw/v2.2.6/cli/schemas/config-file.v1.json"
+      "$ref": "https://github.com/denoland/deno/raw/v2.2.7/cli/schemas/config-file.v1.json"
     }
   ],
   "properties": {
