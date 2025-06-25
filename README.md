@@ -5,6 +5,9 @@ A script for generating Git hooks by extending Deno's configuration file.
 [![Built with the Deno Standard Library](https://raw.githubusercontent.com/denoland/deno_std/main/badge.svg)](https://deno.land/std)
 [![CI](https://github.com/catuhana/denoh/actions/workflows/ci.yaml/badge.svg)](https://github.com/catuhana/denoh/actions/workflows/ci.yaml)
 
+> [!WARNING]
+> This project is no longer being maintained, and is archived.
+
 ## Installation or Running
 
 You can install denoh globally by running `deno install https://deno.land/x/denoh/denoh.ts` command, or run by running `deno run https://deno.land/x/denoh/denoh.ts`.
